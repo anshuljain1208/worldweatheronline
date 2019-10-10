@@ -11,16 +11,15 @@ import CoreData
 
 extension URL {
 
-    func appending(query key: String, value: String) -> URL {
-      appending(query: [key: value])
-
+    func appending(query key: ServerQueryKey, value: String) -> URL {
+      appending(params: [key: value])
     }
 
-  func appending(query items:[String: String]) -> URL {
+  func appending(params items:[ServerQueryKey: String]) -> URL {
       guard var urlComponents = URLComponents(string: absoluteString) else { return absoluteURL }
       var queryItems: [URLQueryItem] = urlComponents.queryItems ??  []
       for (key, value) in items {
-        let queryItem = URLQueryItem(name: key, value: value)
+        let queryItem = URLQueryItem(name: key.rawValue, value: value)
         queryItems.append(queryItem)
       }
       urlComponents.queryItems = queryItems
@@ -32,27 +31,38 @@ extension URL {
 struct ServerEndPoint {
   //?qry=united%20states&key=3c38a95745f843559ac41436190810&num_of_results=4
     static let endPoint = URL(string: "https://api.worldweatheronline.com/premium/")!
-    static let searchPath = "v1/weather.ashx"
-
+    static let searchPath = "v1/search.ashx"
+    static let weatherPath = "v1/weather.ashx"
     static var searchURL: URL {
       let finalURLString = ServerEndPoint.endPoint.appendingPathComponent(searchPath)
       return finalURLString
     }
-
-  static var dynamicSearchURL: URL {
-    let endPoint = URL(string: "https://www.worldweatheronline.com/v2/search.ashx")!
-    return endPoint
-  }
-
+    static var weatherURL: URL {
+      let finalURLString = ServerEndPoint.endPoint.appendingPathComponent(weatherPath)
+      return finalURLString
+    }
 }
 
+enum ServerQueryKey: String {
+  case apiKey = "key"
+  case searchString = "q"
+  case maxResultCount = "num_of_results"
+  case format = "format"
+}
+
+struct ServerQuery {
+  //?qry=united%20states&key=3c38a95745f843559ac41436190810&num_of_results=4
+  static let worldweatheronlineAPIKey = "3c38a95745f843559ac41436190810"
+  static let jsonValue = "json"
+  static let sharedQuery:[ServerQueryKey: String] = [.apiKey: ServerQuery.worldweatheronlineAPIKey, .format: jsonValue]
+}
 
 struct LocalStorage {
     static var storagePath:String {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask,true)[0]
         return documentsPath + "/recentCities"
     }
-
+    
   static var storageURL: URL {
       return URL.init(fileURLWithPath: LocalStorage.storagePath)
   }
@@ -62,8 +72,7 @@ extension NSNotification.Name {
 
 }
 
-public typealias ServerResponseHandler = (Data?, Error?) -> Void
-public typealias FetchResponseHandler = (Bool, Error?) -> Void
+typealias ServerResponseHandler = (Swift.Result<Data, Error>) -> Void
 
 class ServerManager {
     static let shared = ServerManager()
@@ -72,43 +81,37 @@ class ServerManager {
     init(){
     }
 
-
     // MARK: - Server Request
-    func dynamicSearch(city query:String, completionHandler:@escaping FetchResponseHandler) {
-        let searchURL = ServerEndPoint.dynamicSearchURL
+    func dynamicSearch(city query:String, completionHandler:@escaping (Swift.Result<SerachResult, Error>) -> Void) {
+        let searchURL = ServerEndPoint.searchURL
         let allowed = CharacterSet.urlQueryAllowed
         guard let searchQuery = query.addingPercentEncoding(withAllowedCharacters: allowed) else {
           return
         }
-        let searchURLWithParam = searchURL.appending(query: "qry", value:searchQuery)
-        fetechJsonDataFromURL(url: searchURLWithParam) { (data, error) in
-            if let jsonData = data {
-                let decoder = JSONDecoder()
-    //                _  = try decoder.decode([Comment].self, from: jsonData)
-                completionHandler(true,nil)
-
-            } else {
-                completionHandler(false,error)
+        let params:[ServerQueryKey: String] = [.searchString: searchQuery,
+                                               .maxResultCount: "200"]
+        let searchURLWithParam = searchURL.appending(params: params)
+        fetechJsonDataFromURL(url: searchURLWithParam) { (result) in
+          switch result {
+          case .success(let jsonData):
+            do {
+              let searchResult = try SerachResult(query: "serachResults", jsonData: jsonData)
+              print("searchResult \(searchResult)")
+              completionHandler(.success(searchResult))
+            } catch {
+              completionHandler(.failure(error))
             }
+          case .failure(let error):
+            completionHandler(.failure(error))
         }
       }
+    }
 
 
     func fetechJsonDataFromURL(url:URL, completeionHandler:@escaping ServerResponseHandler)  {
-        let operation = HTTPOperation(url: url, session: URLSession.shared, completionHandler: {
-            (data, error) in
-            if let jsonData = data {
-               completeionHandler(jsonData,nil)
-            }
-            else if error != nil {
-                completeionHandler(nil,error)
-            }
-            else {
-                fatalError("This should never be reached issues with HTTPOperation")
-            }
-        })
+        let url = url.appending(params: ServerQuery.sharedQuery)
+        let operation = HTTPOperation(url: url, session: URLSession.shared, completionHandler: completeionHandler)
         self.httpOperationQueue.addOperation(operation);
     }
-
 }
 

@@ -6,8 +6,6 @@
 //  Copyright © 2019 Anshul Jain. All rights reserved.
 //
 
-
-
 import XCTest
 @testable import worldweatheronline
 

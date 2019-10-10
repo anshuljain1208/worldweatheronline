@@ -45,8 +45,6 @@ extension HTTPError: LocalizedError {
     }
 }
 
-public typealias HTTPCompletionHandler = (Data?, HTTPError?) -> Void
-
 class HTTPOperation: Operation {
 
     fileprivate var _executing = false
@@ -58,15 +56,15 @@ class HTTPOperation: Operation {
     var data =  Data();
     var identifier = "";
 
-    convenience init(url:URL, completionHandler:@escaping HTTPCompletionHandler) {
+    convenience init(url:URL, completionHandler:@escaping ServerResponseHandler) {
         self.init(request: URLRequest(url: url), session: URLSession.shared, completionHandler:completionHandler)
     }
 
-    convenience init(url:URL, session:URLSession, completionHandler:@escaping HTTPCompletionHandler) {
+    convenience init(url:URL, session:URLSession, completionHandler:@escaping ServerResponseHandler) {
         self.init(request: URLRequest(url: url), session: session, completionHandler:completionHandler)
     }
 
-    init(request:URLRequest, session:URLSession, completionHandler:@escaping HTTPCompletionHandler) {
+    init(request:URLRequest, session:URLSession, completionHandler:@escaping ServerResponseHandler) {
         self.session = session;
         super.init()
         task = session.dataTask(with:request, completionHandler: { [weak self] (data, response, error) -> Void in
@@ -74,22 +72,22 @@ class HTTPOperation: Operation {
                 self?.finish()
            }
             if let urlError = error as? URLError {
-                completionHandler(nil, HTTPError.url(error: urlError))
+              completionHandler(.failure( HTTPError.url(error: urlError)))
                 return
             }
             else if error != nil{
-                completionHandler(nil, HTTPError.genric(error: error!))
+                completionHandler(.failure( HTTPError.genric(error: error!)))
                 return
             }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
                 print(httpResponse)
                 let reason = "" //UserMessages.genricServerError
-                completionHandler(nil,HTTPError.badHTTPStatus(reason: reason, code: httpResponse.statusCode))
+                completionHandler(.failure( HTTPError.badHTTPStatus(reason: reason, code: httpResponse.statusCode)))
                 return
             }
             if let responseData = data {
                 self?.data = responseData;
-                completionHandler(data,nil)
+              completionHandler(.success(responseData))
             }
         })
     }

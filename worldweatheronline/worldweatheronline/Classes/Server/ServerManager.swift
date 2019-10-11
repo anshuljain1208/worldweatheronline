@@ -72,7 +72,7 @@ extension NSNotification.Name {
 
 }
 
-typealias ServerResponseHandler = (Swift.Result<Data, Error>) -> Void
+typealias ServerResponseHandler = (Swift.Result<Data, HTTPError>) -> Void
 
 class ServerManager {
     static let shared = ServerManager()

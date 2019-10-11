@@ -54,18 +54,30 @@ class HTTPOperation: Operation {
     var task: URLSessionDataTask?;
     var session: URLSession;
     var data =  Data();
-    var identifier = "";
+    let identifier: String
 
-    convenience init(url:URL, completionHandler:@escaping ServerResponseHandler) {
-        self.init(request: URLRequest(url: url), session: URLSession.shared, completionHandler:completionHandler)
+    override var hash: Int {
+        return self.identifier.hash
     }
 
-    convenience init(url:URL, session:URLSession, completionHandler:@escaping ServerResponseHandler) {
-        self.init(request: URLRequest(url: url), session: session, completionHandler:completionHandler)
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let otherPerson = object as? HTTPOperation else {
+            return false
+        }
+        return self.identifier == otherPerson.identifier
     }
 
-    init(request:URLRequest, session:URLSession, completionHandler:@escaping ServerResponseHandler) {
+    convenience init(url:URL, identifier:String = UUID().uuidString, completionHandler:@escaping ServerResponseHandler) {
+      self.init(request: URLRequest(url: url), session: URLSession.shared, identifier: identifier, completionHandler:completionHandler)
+    }
+
+    convenience init(url:URL, session:URLSession,identifier:String = UUID().uuidString, completionHandler:@escaping ServerResponseHandler) {
+        self.init(request: URLRequest(url: url), session: session, identifier: identifier, completionHandler:completionHandler)
+    }
+
+  init(request:URLRequest, session:URLSession, identifier:String = UUID().uuidString, completionHandler:@escaping ServerResponseHandler) {
         self.session = session;
+        self.identifier = identifier
         super.init()
         task = session.dataTask(with:request, completionHandler: { [weak self] (data, response, error) -> Void in
             defer {

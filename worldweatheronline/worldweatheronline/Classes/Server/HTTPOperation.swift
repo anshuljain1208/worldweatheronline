@@ -61,10 +61,10 @@ class HTTPOperation: Operation {
     }
 
     override func isEqual(_ object: Any?) -> Bool {
-        guard let otherPerson = object as? HTTPOperation else {
+        guard let other = object as? HTTPOperation else {
             return false
         }
-        return self.identifier == otherPerson.identifier
+        return self.hash == other.hash
     }
 
     convenience init(url:URL, identifier:String = UUID().uuidString, completionHandler:@escaping ServerResponseHandler) {
@@ -75,11 +75,14 @@ class HTTPOperation: Operation {
         self.init(request: URLRequest(url: url), session: session, identifier: identifier, completionHandler:completionHandler)
     }
 
-  init(request:URLRequest, session:URLSession, identifier:String = UUID().uuidString, completionHandler:@escaping ServerResponseHandler) {
+  init(request:URLRequest, session:URLSession, identifier:String, completionHandler:@escaping ServerResponseHandler) {
         self.session = session;
         self.identifier = identifier
         super.init()
         task = session.dataTask(with:request, completionHandler: { [weak self] (data, response, error) -> Void in
+          if let strongSelf = self, strongSelf._cancelled == true {
+            return
+          }
             defer {
                 self?.finish()
            }
@@ -116,6 +119,10 @@ class HTTPOperation: Operation {
         return _finished && !_cancelled
     }
 
+    override var isCancelled: Bool {
+      return _cancelled
+    }
+
     func finish() {
         NetworkIndicator.hide()
         self.willChangeValue(forKey: "isExecuting")
@@ -140,7 +147,6 @@ class HTTPOperation: Operation {
 
         _executing = true
         _finished = false
-        sleep(2)
         self.didChangeValue(forKey: "isExecuting")
         self.didChangeValue(forKey: "isFinished")
         NetworkIndicator.show()

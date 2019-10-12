@@ -43,11 +43,34 @@ struct ServerEndPoint {
     }
 }
 
+struct ServerQueryValue {
+  static let numOfDays = "1"
+  static let forcast = "yes"
+  static let currentCondition = "yes"
+  static let monthlyCondition = "no"
+  static let location = "no"
+  static let comments = "no"
+  static let dateFormat = "unix"
+  static let tp = "6"
+
+}
 enum ServerQueryKey: String {
   case apiKey = "key"
   case searchString = "q"
-  case maxResultCount = "num_of_results"
   case format = "format"
+
+  //Search Query
+  case maxResultCount = "num_of_results"
+
+  //Weather Query
+  case numOfDays = "num_of_days"
+  case forcast = "fx"
+  case currentCondition = "cc"
+  case monthlyCondition = "mca"
+  case location = "includelocation"
+  case comments = "show_comments"
+  case dateFormat = "date_format"
+  case tp = "tp"
 }
 
 struct ServerQuery {
@@ -55,22 +78,16 @@ struct ServerQuery {
   static let worldweatheronlineAPIKey = "3c38a95745f843559ac41436190810"
   static let jsonValue = "json"
   static let sharedQuery:[ServerQueryKey: String] = [.apiKey: ServerQuery.worldweatheronlineAPIKey, .format: jsonValue]
+  static let weatherParams:[ServerQueryKey: String] = [.dateFormat: ServerQueryValue.dateFormat,
+                                                      .comments: ServerQueryValue.comments,
+                                                      .numOfDays: ServerQueryValue.numOfDays,
+                                                      .forcast: ServerQueryValue.forcast,
+                                                      .currentCondition: ServerQueryValue.currentCondition,
+                                                      .monthlyCondition: ServerQueryValue.monthlyCondition,
+                                                      .location: ServerQueryValue.location,
+                                                      .tp: ServerQueryValue.tp]
 }
 
-struct LocalStorage {
-    static var storagePath:String {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask,true)[0]
-        return documentsPath + "/recentCities"
-    }
-    
-  static var storageURL: URL {
-      return URL.init(fileURLWithPath: LocalStorage.storagePath)
-  }
-}
-
-extension NSNotification.Name {
-
-}
 
 typealias ServerResponseHandler = (Swift.Result<Data, HTTPError>) -> Void
 
@@ -82,7 +99,33 @@ class ServerManager {
     }
 
     // MARK: - Server Request
-    func dynamicSearch(city query:String, completionHandler:@escaping (Swift.Result<SerachResult, Error>) -> Void) {
+  func weather(forCity city:City, completionHandler:@escaping (Swift.Result<CityWeather, Error>) -> Void) {
+      let searchURL = ServerEndPoint.weatherURL
+      let allowed = CharacterSet.urlQueryAllowed
+      guard let searchQuery = city.name.addingPercentEncoding(withAllowedCharacters: allowed) else {
+        return
+      }
+//      q=New&
+      var params:[ServerQueryKey: String] = ServerQuery.weatherParams
+      params[.searchString] = searchQuery
+      let searchURLWithParam = searchURL.appending(params: params)
+      fetechDataFromURL(url: searchURLWithParam, requestIdentifier:"dynamicSearch") { (result) in
+        switch result {
+        case .success(let jsonData):
+          do {
+            let city = try JSONDecoder().decode(CityWeatherWrapper.self, from: jsonData)
+            print("city \(city)")
+            completionHandler(.success(city.data))
+          } catch {
+            completionHandler(.failure(error))
+          }
+        case .failure(let error):
+          completionHandler(.failure(error))
+      }
+    }
+  }
+
+    func dynamicSearch(city query:String, completionHandler:@escaping (Swift.Result<SearchResult, Error>) -> Void) {
         let searchURL = ServerEndPoint.searchURL
         let allowed = CharacterSet.urlQueryAllowed
         guard let searchQuery = query.addingPercentEncoding(withAllowedCharacters: allowed) else {
@@ -91,11 +134,11 @@ class ServerManager {
         let params:[ServerQueryKey: String] = [.searchString: searchQuery,
                                                .maxResultCount: "200"]
         let searchURLWithParam = searchURL.appending(params: params)
-        fetechJsonDataFromURL(url: searchURLWithParam) { (result) in
+      fetechDataFromURL(url: searchURLWithParam, requestIdentifier:"dynamicSearch") { (result) in
           switch result {
           case .success(let jsonData):
             do {
-              let searchResult = try SerachResult(query: "serachResults", jsonData: jsonData)
+              let searchResult = try SearchResult(query: "serachResults", jsonData: jsonData)
               print("searchResult \(searchResult)")
               completionHandler(.success(searchResult))
             } catch {
@@ -107,11 +150,38 @@ class ServerManager {
       }
     }
 
-
-    func fetechJsonDataFromURL(url:URL, completeionHandler:@escaping ServerResponseHandler)  {
+    @discardableResult
+    func fetechDataFromURL(url:URL, requestIdentifier:String = UUID().uuidString,completeionHandler:@escaping ServerResponseHandler) -> Operation {
+        self.httpOperationQueue.cancelAll(withIdentifier: requestIdentifier)
         let url = url.appending(params: ServerQuery.sharedQuery)
-        let operation = HTTPOperation(url: url, session: URLSession.shared, completionHandler: completeionHandler)
+        let operation = HTTPOperation(url: url, session: URLSession.shared, identifier:requestIdentifier, completionHandler: completeionHandler)
         self.httpOperationQueue.addOperation(operation);
+        return operation
+    }
+
+    @discardableResult
+    func fetechImageFromURL(url:URL, requestIdentifier:String = UUID().uuidString,completeionHandler:@escaping ServerResponseHandler) -> Operation {
+        let operation = HTTPOperation(url: url, session: URLSession.shared, identifier:requestIdentifier, completionHandler: completeionHandler)
+        self.httpOperationQueue.addOperation(operation);
+        return operation
     }
 }
 
+extension OperationQueue {
+  func operations(withIdentifier identifier: String) -> [HTTPOperation]{
+    var result = [HTTPOperation]()
+    for operation in self.operations {
+      if let httpOperation = operation as? HTTPOperation, httpOperation.identifier == identifier {
+        result.append(httpOperation)
+      }
+    }
+    return result;
+  }
+
+  func cancelAll(withIdentifier identifier: String) {
+    let httOperations = operations(withIdentifier: identifier)
+    for operation in httOperations {
+      operation.cancel()
+    }
+  }
+}

@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct  SerachResult: CustomStringConvertible {
+struct  SearchResult: CustomStringConvertible {
   let query:String
   let results:[City]
   init(query:String, jsonData: Data) throws {

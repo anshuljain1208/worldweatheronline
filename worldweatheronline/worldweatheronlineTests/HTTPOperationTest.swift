@@ -165,7 +165,8 @@ class HTTPOperationTest: XCTestCase {
             XCTAssert(false,"Unable to intialize url")
         }
     }
-    
+
+    //Fail Method not allowed
     func test_http_URL() {
         if let url = URL(string: "http://httpbin.org/post") {
             let exp = expectation(description: "\(#function)\(#line)")
@@ -186,6 +187,80 @@ class HTTPOperationTest: XCTestCase {
             XCTAssert(false,"Unable to intialize url")
         }
     }
+
+  func test_URL_cancel() {
+      if let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1") {
+          let exp = expectation(description: "\(#function)\(#line)")
+          exp.isInverted = true
+          let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            switch result {
+            case .success(_):
+              XCTAssert(false)
+            case .failure(_):
+              XCTAssert(false)
+            }
+          })
+
+          operationQueue?.addOperation(operation)
+          XCTAssert(operation.isAsynchronous == true)
+          operation.cancel()
+          waitForExpectations(timeout: 5, handler: nil)
+      }
+      
+      else {
+          XCTAssert(false,"Unable to intialize url")
+      }
+  }
+
+  func test_URL_cancel_1() {
+      if let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1") {
+          let exp = expectation(description: "\(#function)\(#line)")
+          exp.isInverted = true
+          let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            switch result {
+            case .success(_):
+              XCTAssert(false)
+            case .failure(_):
+              XCTAssert(false)
+            }
+          })
+        
+          operationQueue?.isSuspended = true
+          operationQueue?.addOperation(operation)
+          operation.cancel()
+          XCTAssert(operation.isCancelled,"Operation is not Cancelled")
+          operationQueue?.isSuspended = false
+          XCTAssert(operation.isExecuting == false,"Operation is Executing")
+
+          waitForExpectations(timeout: 1, handler: nil)
+      }
+
+      else {
+          XCTAssert(false,"Unable to intialize url")
+      }
+  }
+
+
+  func test_URL_equalitytest() {
+      if let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1") {
+          let exp = expectation(description: "\(#function)\(#line)")
+          exp.isInverted = true
+          let identifier = "identifier"
+        let operation = HTTPOperation(url: url, identifier:identifier, completionHandler: { (result) in })
+          let operation1 = HTTPOperation(url: url, identifier:identifier ,completionHandler: { (result) in })
+         let operation2 = HTTPOperation(url: url, completionHandler: { (result) in })
+
+          XCTAssert(operation == operation1)
+          XCTAssert(operation != operation2)
+          XCTAssert(operation != Operation())
+          waitForExpectations(timeout: 5, handler: nil)
+      }
+
+      else {
+          XCTAssert(false,"Unable to intialize url")
+      }
+  }
+
 
     func test_https_URL_method_not_allowed() {
         if let url = URL(string: "https://httpbin.org/post") {

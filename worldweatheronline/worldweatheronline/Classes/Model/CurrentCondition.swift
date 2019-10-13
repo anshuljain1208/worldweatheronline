@@ -20,7 +20,7 @@ enum CurrentConditionCodingKeys: String, CodingKey {
   case precipitationInMM = "precipMM"
   case precipitationInInches = "precipInches"
   case humidity = "humidity"
-  case visibilityInKMPH = "visibility"
+  case visibilityInKm = "visibility"
   case visibilityInMiles = "visibilityMiles"
   case pressureInMillibars = "pressure"
   case pressureInInches = "pressureInches"
@@ -45,7 +45,7 @@ struct CurrentCondition: Decodable {
   let precipitationInMM:Double?
   let precipitationInInches:Double?
   let humidity:Double?
-  private let visibilityInKMPH:Int?
+  private let visibilityInKm:Int?
   private let visibilityInMiles:Int?
   private let pressureInMillibars:Int?
   private let pressureInInches:Double?
@@ -73,7 +73,7 @@ struct CurrentCondition: Decodable {
     precipitationInMM = try container.decodeNumericIfPresent(Double.self, forKey: .precipitationInMM)
     precipitationInInches = try container.decodeNumericIfPresent(Double.self, forKey: .precipitationInInches)
     humidity = try container.decodeNumericIfPresent(Double.self, forKey: .humidity)
-    visibilityInKMPH = try container.decodeNumericIfPresent(Int.self, forKey: .visibilityInKMPH)
+    visibilityInKm = try container.decodeNumericIfPresent(Int.self, forKey: .visibilityInKm)
     visibilityInMiles = try container.decodeNumericIfPresent(Int.self, forKey: .visibilityInMiles)
     pressureInMillibars = try container.decodeNumericIfPresent(Int.self, forKey: .pressureInMillibars)
     pressureInInches = try container.decodeNumericIfPresent(Double.self, forKey: .pressureInInches)
@@ -94,7 +94,7 @@ struct CurrentCondition: Decodable {
   }
 
   var visibility:String {
-    return UserPreferenceFormatter.localizedDistance(inKM: visibilityInKMPH, inMiles: visibilityInMiles)
+    return UserPreferenceFormatter.localizedDistance(inKM: visibilityInKm, inMiles: visibilityInMiles)
   }
 
   var windSpeed:String {

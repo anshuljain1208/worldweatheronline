@@ -22,6 +22,16 @@ extension URL {
       // Returns the url from new url components
       return urlComponents.url!
   }
+
+  func updateSchemeToHttps() -> URL {
+    guard var urlComponents = URLComponents(string: absoluteString) else { return absoluteURL }
+    if urlComponents.scheme == "http" {
+      urlComponents.scheme = "https" 
+    }
+    // Returns the url from new url components
+    return urlComponents.url!
+  }
+
 }
 
 struct ServerEndPoint {

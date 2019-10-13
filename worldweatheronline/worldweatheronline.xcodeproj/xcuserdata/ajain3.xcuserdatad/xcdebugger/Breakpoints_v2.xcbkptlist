@@ -131,7 +131,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "worldweatheronlineTests/UserPreferenceFormatterTests.swift"
-            timestampString = "592671057.906868"
+            timestampString = "592679102.614273"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
@@ -181,7 +181,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "worldweatheronlineTests/ImageManagerTests.swift"
-            timestampString = "592671057.906956"
+            timestampString = "592679102.6143759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "120"
@@ -197,7 +197,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "worldweatheronline/Classes/Model/ImageManager.swift"
-            timestampString = "592671057.906999"
+            timestampString = "592679102.614418"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "95"
@@ -213,7 +213,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-            timestampString = "592671057.907039"
+            timestampString = "592679102.614459"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "192"
@@ -229,7 +229,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-            timestampString = "592671057.907078"
+            timestampString = "592679102.614503"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
@@ -245,7 +245,7 @@
                   moduleName = "worldweatheronline"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ajain3/Development/Local/worldweatheronline/worldweatheronline/worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-                  timestampString = "592670397.060836"
+                  timestampString = "592674782.108092"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "171"
@@ -260,7 +260,7 @@
                   moduleName = "worldweatheronline"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ajain3/Development/Local/worldweatheronline/worldweatheronline/worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-                  timestampString = "592670397.062742"
+                  timestampString = "592674782.110298"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "171"
@@ -268,6 +268,22 @@
                   offsetFromSymbolStart = "284">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "worldweatheronline/Classes/Server/ServerManager.swift"
+            timestampString = "592679102.614543"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "updateSchemeToHttps()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

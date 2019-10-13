@@ -29,12 +29,14 @@ class ImageView: UIImageView {
     }
     downloadOperation?.cancel()
     downloadOperation = ImageManager.shared.fetechImage(forURL: imageURL) { (result) in
-      switch result{
-      case .success(let image):
-        self.image = image
-      case .failure(let error):
-        self.image = self.placeholderImage
-        print("image download error \(error)")
+      DispatchQueue.main.async {
+        switch result{
+        case .success(let image):
+          self.image = image
+        case .failure(let error):
+          self.image = self.placeholderImage
+          print("image download error \(error)")
+        }
       }
     }
   }

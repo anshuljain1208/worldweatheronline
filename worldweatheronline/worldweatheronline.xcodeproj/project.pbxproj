@@ -54,6 +54,9 @@
 		CF45827C234CD3CE00F76327 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF45827A234CD3CE00F76327 /* LaunchScreen.storyboard */; };
 		CF458287234CD3CE00F76327 /* CityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF458286234CD3CE00F76327 /* CityTests.swift */; };
 		CF458292234CD3CE00F76327 /* worldweatheronlineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF458291234CD3CE00F76327 /* worldweatheronlineUITests.swift */; };
+		CF4B191E235379810072D53B /* CityWeatherTableCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B191C235379810072D53B /* CityWeatherTableCellTableViewCell.swift */; };
+		CF4B191F235379810072D53B /* CityWeatherTableCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4B191D235379810072D53B /* CityWeatherTableCellTableViewCell.xib */; };
+		CF4B1921235383B20072D53B /* CityWeatherTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4B1920235383B20072D53B /* CityWeatherTableHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +130,9 @@
 		CF45828D234CD3CE00F76327 /* worldweatheronlineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = worldweatheronlineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF458291234CD3CE00F76327 /* worldweatheronlineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = worldweatheronlineUITests.swift; sourceTree = "<group>"; };
 		CF458293234CD3CE00F76327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF4B191C235379810072D53B /* CityWeatherTableCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherTableCellTableViewCell.swift; sourceTree = "<group>"; };
+		CF4B191D235379810072D53B /* CityWeatherTableCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CityWeatherTableCellTableViewCell.xib; sourceTree = "<group>"; };
+		CF4B1920235383B20072D53B /* CityWeatherTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherTableHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +173,9 @@
 			isa = PBXGroup;
 			children = (
 				CF084AF72351997000B2620D /* ImageView.swift */,
+				CF4B191C235379810072D53B /* CityWeatherTableCellTableViewCell.swift */,
+				CF4B191D235379810072D53B /* CityWeatherTableCellTableViewCell.xib */,
+				CF4B1920235383B20072D53B /* CityWeatherTableHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -415,6 +424,7 @@
 			files = (
 				CF45827C234CD3CE00F76327 /* LaunchScreen.storyboard in Resources */,
 				CF458279234CD3CE00F76327 /* Assets.xcassets in Resources */,
+				CF4B191F235379810072D53B /* CityWeatherTableCellTableViewCell.xib in Resources */,
 				CF458277234CD3C800F76327 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +468,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF4B191E235379810072D53B /* CityWeatherTableCellTableViewCell.swift in Sources */,
 				CF18843B234F10A500E1AFEF /* ServerManager.swift in Sources */,
 				CF084AED2350D24D00B2620D /* RecentCitiesController.swift in Sources */,
 				CF18843A234F10A500E1AFEF /* NetworkIndicator.swift in Sources */,
@@ -470,6 +481,7 @@
 				CF188462234F7F2700E1AFEF /* HourlyCondition.swift in Sources */,
 				CF084AFB2352CBB700B2620D /* UserPreferenceFormatter.swift in Sources */,
 				CF188440234F10C300E1AFEF /* AppDelegate.swift in Sources */,
+				CF4B1921235383B20072D53B /* CityWeatherTableHeaderView.swift in Sources */,
 				CF084AE42350388E00B2620D /* CityWeather.swift in Sources */,
 				CF18843C234F10A500E1AFEF /* HTTPOperation.swift in Sources */,
 				CF188448234F1F9000E1AFEF /* SearchResult.swift in Sources */,

@@ -30,7 +30,7 @@ class RecentCitiesTest: XCTestCase {
   }
 
   override func tearDown() {
-      // Put teardown code here. This method is called after the invocation of each test method in the class.
+    try? FileManager.default.removeItem(at: RecentCities.storageURL)
   }
 
   func testRecentCities_add_differnt() {

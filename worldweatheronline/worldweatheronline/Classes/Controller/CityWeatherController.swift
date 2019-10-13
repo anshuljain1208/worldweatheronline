@@ -11,17 +11,31 @@ import UIKit
 struct CityWeatherControllerIdentifiers {
   static let cityWeatherCell = "cityWeatherCell"
   static let cityWeatherHeaderCell = "cityWeatherHeaderCell"
-  static let cityWeatherTemperatureCell = "cityWeatherTemperatureCell"
+  static let cityWeatherGenricCell = "cityWeatherGenricCell"
 }
 
 struct CityWeatherControllerStrings {
-  static let humidityValue = "Humidity: %@%%"
-  static let currentTemperatureValue = "Current: %@"
-  static let feelTemperatureValue = "Feels like: %@"
-  static let windSpeedValue = "Speed: %@"
-  static let windDirectionValue = "Direction: %@"
-  static let cloudCoverValue = "Cloud cover: %@%%"
-  static let visibility = "Visibility: %@"
+  static let humidityValue = " %@%%"
+  static let humidityTitle = "Humidity:"
+  static let currentTemperatureValue = " %@"
+  static let feelTemperatureValue = " %@"
+  static let currentTemperatureTitle = "Current:"
+  static let feelTemperatureTitle = "Feels like:"
+
+  static let windSpeedValue = " %@"
+  static let windDirectionValue = " %@"
+  static let windSpeedTitle = "Speed:"
+  static let windDirectionTitle = "Direction:"
+
+  static let cloudCoverValue = " %@%%"
+  static let visibilityValue = " %@"
+  static let cloudCoverTitle = "Cloud cover:"
+  static let visibilityTitle = "Visibility:"
+
+  static let pressureValue = " %@"
+  static let precipitationValue = " %@ mm"
+  static let precipitationTitle = "Precipitation:"
+  static let pressureTitle = "Pressure:"
 
   static let weatherHeader = "Weather"
   static let temperatureHeader = "Temperature"
@@ -50,7 +64,7 @@ class CityWeatherController: UITableViewController {
     RecentCities.sharedInstance.add(city: city)
     downloadWeatherUpdate()
     tableView.register(UINib(nibName: "CityWeatherTableCellTableViewCell", bundle: nil), forCellReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherCell)
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherTemperatureCell)
+    tableView.register(UINib(nibName: "CityWeatherGenricTableCell", bundle: nil), forCellReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherGenricCell)
     tableView.register(CityWeatherTableHeaderView.self, forHeaderFooterViewReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherHeaderCell)
     tableView.separatorStyle = .none
     tableView.allowsSelection = false
@@ -79,7 +93,7 @@ class CityWeatherController: UITableViewController {
   }
 
   func didDownloadWeatherReport() {
-    guard let currentCondition =  self.weatherReport?.currentConditionList.first else {
+    guard let _ =  self.weatherReport?.currentConditionList.first else {
       return
     }
     tableView.reloadData()
@@ -91,9 +105,11 @@ class CityWeatherController: UITableViewController {
       switch section {
       case 0:
         rows = 1
-      case 1...3:
+      case 1...2:
+        rows = 1
+      case 3:
         rows = 2
-      default:
+        default:
         rows = 0
       }
     }
@@ -115,7 +131,8 @@ class CityWeatherController: UITableViewController {
     if let currentCondition =  self.weatherReport?.currentConditionList.first {
       cell.titleLabel?.text = currentCondition.weatherDescription
       if let humidity = currentCondition.humidity {
-        cell.subtitleLabel.text = String(format: CityWeatherControllerStrings.humidityValue,String(humidity))
+        cell.subtitleLabel.subtitle = String(format: CityWeatherControllerStrings.humidityValue,String(humidity))
+        cell.subtitleLabel.title = String(format: CityWeatherControllerStrings.humidityTitle)
       } else {
         cell.subtitleLabel?.text = ""
       }
@@ -128,42 +145,55 @@ class CityWeatherController: UITableViewController {
   }
 
   func temperatureCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherTemperatureCell, for: indexPath)
-    switch indexPath.row {
-    case 0:
-      cell.textLabel?.text = String(format: CityWeatherControllerStrings.currentTemperatureValue,self.weatherReport?.currentConditionList.first?.temperature ?? "")
-    case 1:
-      cell.textLabel?.text = String(format: CityWeatherControllerStrings.feelTemperatureValue,self.weatherReport?.currentConditionList.first?.temperatureFeeling ?? "")
-    default:
-      cell.textLabel?.text = ""
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherGenricCell, for: indexPath) as? CityWeatherGenricTableCell else {
+      return UITableViewCell()
     }
+    cell.titleLabel.title = String(format: CityWeatherControllerStrings.currentTemperatureTitle)
+    cell.titleLabel.subtitle = String(format: CityWeatherControllerStrings.currentTemperatureValue,self.weatherReport?.currentConditionList.first?.temperature ?? "")
+
+    cell.subtitleLabel.title = String(format: CityWeatherControllerStrings.feelTemperatureTitle)
+    cell.subtitleLabel.subtitle = String(format: CityWeatherControllerStrings.feelTemperatureValue,self.weatherReport?.currentConditionList.first?.temperatureFeeling ?? "")
+
     return cell
   }
 
   func windCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherTemperatureCell, for: indexPath)
-    switch indexPath.row {
-    case 0:
-      cell.textLabel?.text = String(format: CityWeatherControllerStrings.windSpeedValue,self.weatherReport?.currentConditionList.first?.windSpeed ?? "")
-    case 1:
-      cell.textLabel?.text = String(format: CityWeatherControllerStrings.windDirectionValue,self.weatherReport?.currentConditionList.first?.windDirection16Point ?? "")
-    default:
-      cell.textLabel?.text = ""
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherGenricCell, for: indexPath) as? CityWeatherGenricTableCell else {
+      return UITableViewCell()
     }
+
+    cell.titleLabel.subtitle = String(format: CityWeatherControllerStrings.windSpeedValue,self.weatherReport?.currentConditionList.first?.windSpeed ?? "")
+    cell.titleLabel.title = String(format: CityWeatherControllerStrings.windSpeedTitle)
+
+    cell.subtitleLabel.subtitle = String(format: CityWeatherControllerStrings.windDirectionValue,self.weatherReport?.currentConditionList.first?.windDirection16Point ?? "")
+    cell.subtitleLabel.title = String(format: CityWeatherControllerStrings.windDirectionTitle)
     return cell
   }
 
   func visiblityCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherTemperatureCell, for: indexPath)
+
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherGenricCell, for: indexPath) as? CityWeatherGenricTableCell else {
+      return UITableViewCell()
+    }
     switch indexPath.row {
     case 0:
-      cell.textLabel?.text = String(format: CityWeatherControllerStrings.visibility,self.weatherReport?.currentConditionList.first?.visibility ?? "")
+      cell.titleLabel.subtitle = String(format: CityWeatherControllerStrings.visibilityValue,self.weatherReport?.currentConditionList.first?.visibility ?? "")
+      cell.titleLabel.title = String(format: CityWeatherControllerStrings.visibilityHeader)
+
+      cell.subtitleLabel.subtitle = String(format: CityWeatherControllerStrings.cloudCoverValue,String(self.weatherReport?.currentConditionList.first?.cloudCover ?? 0) )
+      cell.subtitleLabel.title = String(format: CityWeatherControllerStrings.cloudCoverTitle)
+      return cell
     case 1:
-      cell.textLabel?.text = String(format: CityWeatherControllerStrings.cloudCoverValue,String(self.weatherReport?.currentConditionList.first?.cloudCover ?? 0) )
+      cell.titleLabel.subtitle = String(format: CityWeatherControllerStrings.pressureValue,self.weatherReport?.currentConditionList.first?.pressure ?? "")
+      cell.titleLabel.title = String(format: CityWeatherControllerStrings.pressureTitle)
+
+      cell.subtitleLabel.subtitle = String(format: CityWeatherControllerStrings.precipitationValue,String(self.weatherReport?.currentConditionList.first?.precipitationInMM ?? 0) )
+      cell.subtitleLabel.title = String(format: CityWeatherControllerStrings.precipitationTitle)
+      return cell
     default:
-      cell.textLabel?.text = ""
+        return cell
     }
-    return cell
+
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -182,7 +212,6 @@ class CityWeatherController: UITableViewController {
     }
   }
 
-
   override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherHeaderCell)  else {
       return nil
@@ -196,7 +225,6 @@ class CityWeatherController: UITableViewController {
       cell.textLabel?.text = CityWeatherControllerStrings.temperatureHeader
     case 3:
       cell.textLabel?.text = CityWeatherControllerStrings.visibilityHeader
-
     default:
       cell.textLabel?.text = ""
     }

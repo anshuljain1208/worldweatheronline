@@ -1,18 +1,17 @@
 //
-//  CityWeatherTableCellTableViewCell.swift
+//  CityWeatherTableGenricCellTableViewCell.swift
 //  worldweatheronline
 //
-//  Created by Anshul Jain on 13/10/19.
+//  Created by Anshul Jain on 14/10/19.
 //  Copyright © 2019 Anshul Jain. All rights reserved.
 //
 
 import UIKit
 
-class CityWeatherTableCellTableViewCell: UITableViewCell {
+class CityWeatherGenricTableCell: UITableViewCell {
 
   @IBOutlet weak var subtitleLabel: TitleWithSubtitleLabel!
-  @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var iconView: ImageView!
+  @IBOutlet weak var titleLabel: TitleWithSubtitleLabel!
   override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

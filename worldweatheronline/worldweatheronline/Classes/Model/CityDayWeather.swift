@@ -24,24 +24,20 @@ enum CityDayWeatherCodingKeys: String, CodingKey {
   case hourly = "hourly"
 }
 
-struct CityDayWeather: Decodable, CustomStringConvertible {
+struct CityDayWeather: Decodable {
   let date:Date?
   let astronomy:[Astronomy]
-  let maxTempInC:Int?
-  let maxTempInF:Int?
-  let minTempInC:Int?
-  let minTempInF:Int?
+  private let maxTempInC:Int?
+  private let maxTempInF:Int?
+  private let minTempInC:Int?
+  private let minTempInF:Int?
 
-  let avgTempInC:Int?
-  let avgTempInF:Int?
+  private let avgTempInC:Int?
+  private let avgTempInF:Int?
   let totalSnowInCM:Float?
   let sunHour:Float?
   let uvIndex:Int?
   let hourly:[HourlyCondition]
-
-  var description: String {
-    return "CityDayWeather"
-  }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CityDayWeatherCodingKeys.self)
@@ -66,10 +62,21 @@ struct CityDayWeather: Decodable, CustomStringConvertible {
     }
     let dateString = try container.decodeIfPresent(String.self, forKey: .date)
     if let dateString = dateString {
-      date = Date();
+      date = UserPreferenceFormatter.date(fromString: dateString);
     } else {
       date = Date();
     }
   }
 
+  var maxTemp:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.maxTempInC, inFahrenheit: self.maxTempInF)
+  }
+
+  var minTemp:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.minTempInC, inFahrenheit: self.minTempInF)
+  }
+
+  var avgTemp:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.avgTempInC, inFahrenheit: self.avgTempInF)
+  }
 }

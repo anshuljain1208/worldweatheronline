@@ -54,7 +54,7 @@ extension KeyedDecodingContainer {
   }
 }
 
-struct City: Decodable, CustomStringConvertible, Encodable {
+struct City: Decodable, Encodable {
   let name: String
   let country: String?
   let region: String?
@@ -86,9 +86,6 @@ struct City: Decodable, CustomStringConvertible, Encodable {
       try container.encodeIntIfPresent(population, forKey: .population)
   }
 
-  var description:String {
-    return "name:\(name), " + "country:\(country ?? "No Coutry"), " + "region:\(region ?? "No Region")"
-  }
 }
 
 extension City: Equatable {

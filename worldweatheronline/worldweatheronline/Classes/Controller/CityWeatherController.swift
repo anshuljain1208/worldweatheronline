@@ -45,7 +45,6 @@ class CityWeatherController: UITableViewController {
         case .failure(let error):
           print("downloadWeatherUpdate error \(error)");
       }
-
     }
   }
 }

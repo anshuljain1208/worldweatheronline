@@ -25,7 +25,7 @@ class HTTPOperationTest: XCTestCase {
     func testCorrect_URL() {
         if let url = URL(string: "https://www.google.com/") {
             let exp = expectation(description: "\(#function)\(#line)")
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(true)
@@ -33,7 +33,7 @@ class HTTPOperationTest: XCTestCase {
                 XCTAssert(false)
               }
               exp.fulfill()
-            })
+            }
         
             operationQueue?.addOperation(operation)
             waitForExpectations(timeout: 40, handler: nil)
@@ -47,7 +47,7 @@ class HTTPOperationTest: XCTestCase {
         let exp = expectation(description: "\(#function)\(#line)")
         exp.expectedFulfillmentCount = 3
         if let url = URL(string: "https://www.apple.com/") {
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                   XCTAssert(true)
@@ -56,11 +56,11 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("1 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
         }
         if let url = URL(string: "https://jsonplaceholder.typicode.com/posts") {
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                   XCTAssert(true)
@@ -69,12 +69,12 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("2 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
         }
         
         if let url = URL(string: "https://jsonplaceholder.typicode.com/posts") {
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(true)
@@ -83,7 +83,7 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("3 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
         }
         
@@ -94,7 +94,7 @@ class HTTPOperationTest: XCTestCase {
         if let url = URL(string: "https://www.google.com/") {
             let exp = expectation(description: "\(#function)\(#line)")
             exp.expectedFulfillmentCount = 4
-            var operation = HTTPOperation(url: url, completionHandler: { (result) in
+            var operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(true)
@@ -103,9 +103,9 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("1 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
-            operation = HTTPOperation(url: url, completionHandler: { (result) in
+            operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(true)
@@ -114,9 +114,9 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("2 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
-            operation = HTTPOperation(url: url, completionHandler: { (result) in
+            operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(true)
@@ -125,9 +125,9 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("3 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
-            operation = HTTPOperation(url: url, completionHandler: { (result) in
+            operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(true)
@@ -136,7 +136,7 @@ class HTTPOperationTest: XCTestCase {
               }
                 print ("4 fulfill")
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
             waitForExpectations(timeout: 40, handler: nil)
         }
@@ -148,7 +148,7 @@ class HTTPOperationTest: XCTestCase {
     func testBad_URL() {
         if let url = URL(string: "https://www.googe.com/") {
             let exp = expectation(description: "\(#function)\(#line)")
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(false)
@@ -156,7 +156,7 @@ class HTTPOperationTest: XCTestCase {
                 XCTAssert(true)
               }
                 exp.fulfill()
-            })
+            }
             
             operationQueue?.addOperation(operation)
             waitForExpectations(timeout: 40, handler: nil)
@@ -170,7 +170,7 @@ class HTTPOperationTest: XCTestCase {
     func test_http_URL() {
         if let url = URL(string: "http://httpbin.org/post") {
             let exp = expectation(description: "\(#function)\(#line)")
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(false)
@@ -178,7 +178,7 @@ class HTTPOperationTest: XCTestCase {
                 XCTAssert(true)
               }
                 exp.fulfill()
-            })
+            }
             
             operationQueue?.addOperation(operation)
             waitForExpectations(timeout: 40, handler: nil)
@@ -192,15 +192,14 @@ class HTTPOperationTest: XCTestCase {
       if let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1") {
           let exp = expectation(description: "\(#function)\(#line)")
           exp.isInverted = true
-          let operation = HTTPOperation(url: url, completionHandler: { (result) in
+          let operation = HTTPOperation(url: url) { (result) in
             switch result {
             case .success(_):
               XCTAssert(false)
             case .failure(_):
               XCTAssert(false)
             }
-          })
-
+          }
           operationQueue?.addOperation(operation)
           XCTAssert(operation.isAsynchronous == true)
           operation.cancel()
@@ -216,15 +215,14 @@ class HTTPOperationTest: XCTestCase {
       if let url = URL(string: "https://jsonplaceholder.typicode.com/todos/1") {
           let exp = expectation(description: "\(#function)\(#line)")
           exp.isInverted = true
-          let operation = HTTPOperation(url: url, completionHandler: { (result) in
+          let operation = HTTPOperation(url: url) { (result) in
             switch result {
             case .success(_):
               XCTAssert(false)
             case .failure(_):
               XCTAssert(false)
             }
-          })
-        
+          }
           operationQueue?.isSuspended = true
           operationQueue?.addOperation(operation)
           operation.cancel()
@@ -246,16 +244,15 @@ class HTTPOperationTest: XCTestCase {
           let exp = expectation(description: "\(#function)\(#line)")
           exp.isInverted = true
           let identifier = "identifier"
-        let operation = HTTPOperation(url: url, identifier:identifier, completionHandler: { (result) in })
-          let operation1 = HTTPOperation(url: url, identifier:identifier ,completionHandler: { (result) in })
-         let operation2 = HTTPOperation(url: url, completionHandler: { (result) in })
+          let operation = HTTPOperation(url: url, identifier:identifier) { (result) in }
+          let operation1 = HTTPOperation(url: url, identifier:identifier) { (result) in }
+          let operation2 = HTTPOperation(url: url) { (result) in }
 
           XCTAssert(operation == operation1)
           XCTAssert(operation != operation2)
           XCTAssert(operation != Operation())
           waitForExpectations(timeout: 5, handler: nil)
       }
-
       else {
           XCTAssert(false,"Unable to intialize url")
       }
@@ -265,7 +262,7 @@ class HTTPOperationTest: XCTestCase {
     func test_https_URL_method_not_allowed() {
         if let url = URL(string: "https://httpbin.org/post") {
             let exp = expectation(description: "\(#function)\(#line)")
-            let operation = HTTPOperation(url: url, completionHandler: { (result) in
+            let operation = HTTPOperation(url: url) { (result) in
               switch result {
               case .success(_):
                 XCTAssert(false)
@@ -280,7 +277,7 @@ class HTTPOperationTest: XCTestCase {
                  }
               }
                 exp.fulfill()
-            })
+            }
             operationQueue?.addOperation(operation)
             waitForExpectations(timeout: 40, handler: nil)
         }

@@ -26,7 +26,13 @@ class CityTests: XCTestCase {
       let decoder = JSONDecoder()
       do {
         let city = try decoder.decode(City.self, from: citySubData)
-        print(city.description);
+        XCTAssert(city.name == "Seabrook", "name should be Seabrook")
+        XCTAssert(city.latitude == 30.032, "latitude should be 30.032")
+        XCTAssert(city.longitude == -90.013, "longitude should be -90.013")
+        XCTAssert(city.country == "United States of America", "country should be United States of America")
+        XCTAssert(city.region == "Louisiana", "region should be Louisiana")
+        XCTAssert(city.population == 0, "region should be population")
+
         let encoder = JSONEncoder()
         let data = try encoder.encode(city)
         let encodedCity = try decoder.decode(City.self, from: data)
@@ -44,7 +50,11 @@ class CityTests: XCTestCase {
     let decoder = JSONDecoder()
     do {
       let city = try decoder.decode(City.self, from: citySubData)
-      print(city.description);
+      XCTAssert(city.name == "Seabrook", "name should be Seabrook")
+      XCTAssert(city.latitude == nil, "latitude should be nil")
+      XCTAssert(city.longitude == nil, "longitude should be nil")
+      XCTAssert(city.country == nil, "country should be nil")
+      XCTAssert(city.region == nil, "region should be nil")
     } catch {
       XCTAssert(false, "city.json decode failed \(error)")
     }
@@ -102,10 +112,13 @@ class CityTests: XCTestCase {
       }
     }
 
+  //MARK SearchResult Test
     func testSearchResultDecodable() {
       let jsonData = Bundle.stubbedDataFromJson(filename: "serachResults")
       do {
         let searchResult = try SearchResult(query: "serachResults", jsonData: jsonData)
+        XCTAssert(searchResult.query == "serachResults", "query wrong")
+        XCTAssert(searchResult.results.count == 10, "searchResult.results.count is 0")
         print(searchResult);
       } catch {
         XCTAssert(false, "city.json decode failed \(error)")
@@ -116,8 +129,9 @@ class CityTests: XCTestCase {
      let jsonData = Bundle.stubbedDataFromJson(filename: "serachResults_empty")
      do {
        let searchResult = try SearchResult(query: "serachResults", jsonData: jsonData)
-       print(searchResult.description);
-     } catch {
+      XCTAssert(searchResult.query == "serachResults", "query wrong")
+      XCTAssert(searchResult.results.count == 0, "searchResult.results.count is 0")
+} catch {
        XCTAssert(false, "city.json decode failed \(error)")
      }
    }
@@ -126,7 +140,8 @@ class CityTests: XCTestCase {
        let jsonData = Bundle.stubbedDataFromJson(filename: "serachResults_none")
        do {
          let searchResult = try SearchResult(query: "serachResults", jsonData: jsonData)
-         print(searchResult.description);
+         XCTAssert(searchResult.query == "serachResults", "query wrong")
+         XCTAssert(searchResult.results.count == 0, "searchResult.results.count is 0")
        } catch {
          XCTAssert(false, "city.json decode failed \(error)")
        }

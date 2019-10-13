@@ -11,10 +11,6 @@ import CoreData
 
 extension URL {
 
-    func appending(query key: ServerQueryKey, value: String) -> URL {
-      appending(params: [key: value])
-    }
-
   func appending(params items:[ServerQueryKey: String]) -> URL {
       guard var urlComponents = URLComponents(string: absoluteString) else { return absoluteURL }
       var queryItems: [URLQueryItem] = urlComponents.queryItems ??  []
@@ -95,6 +91,23 @@ class ServerManager {
     static let shared = ServerManager()
     private let httpOperationQueue = OperationQueue()
 
+  var isSuspended:Bool {
+    set {
+      httpOperationQueue.isSuspended = newValue
+    }
+    get {
+      return httpOperationQueue.isSuspended
+    }
+  }
+
+  func cancelAllDownloads(identifer:String?) {
+    if let identifier = identifer {
+      httpOperationQueue.cancelAll(withIdentifier: identifier)
+    } else {
+      httpOperationQueue.cancelAllOperations()
+    }
+  }
+
     init(){
     }
 
@@ -151,16 +164,9 @@ class ServerManager {
     }
 
     @discardableResult
-    func fetechDataFromURL(url:URL, requestIdentifier:String = UUID().uuidString,completeionHandler:@escaping ServerResponseHandler) -> Operation {
+    func fetechDataFromURL(url:URL, requestIdentifier:String = UUID().uuidString, completeionHandler:@escaping ServerResponseHandler) -> Operation {
         self.httpOperationQueue.cancelAll(withIdentifier: requestIdentifier)
         let url = url.appending(params: ServerQuery.sharedQuery)
-        let operation = HTTPOperation(url: url, session: URLSession.shared, identifier:requestIdentifier, completionHandler: completeionHandler)
-        self.httpOperationQueue.addOperation(operation);
-        return operation
-    }
-
-    @discardableResult
-    func fetechImageFromURL(url:URL, requestIdentifier:String = UUID().uuidString,completeionHandler:@escaping ServerResponseHandler) -> Operation {
         let operation = HTTPOperation(url: url, session: URLSession.shared, identifier:requestIdentifier, completionHandler: completeionHandler)
         self.httpOperationQueue.addOperation(operation);
         return operation

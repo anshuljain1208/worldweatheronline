@@ -79,7 +79,7 @@ class HTTPOperation: Operation {
         self.session = session;
         self.identifier = identifier
         super.init()
-        task = session.dataTask(with:request, completionHandler: { [weak self] (data, response, error) -> Void in
+        task = session.dataTask(with:request) { [weak self] (data, response, error) -> Void in
           if let strongSelf = self, strongSelf._cancelled == true {
             return
           }
@@ -104,7 +104,7 @@ class HTTPOperation: Operation {
                 self?.data = responseData;
               completionHandler(.success(responseData))
             }
-        })
+        }
     }
 
     override var isAsynchronous: Bool {

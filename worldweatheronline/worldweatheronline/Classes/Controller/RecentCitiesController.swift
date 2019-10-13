@@ -42,6 +42,7 @@ class RecentCitiesController: UITableViewController {
     }
   }
 
+  //MARK: TableView Data Source
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if searchController.isActive {
       return searchResult?.results.count ?? 0
@@ -62,6 +63,7 @@ class RecentCitiesController: UITableViewController {
     }
   }
 
+  //MARK: TableView Data Delegate
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CitySearchCell", for: indexPath)
     let city = cityAtIndex(indexPath.row)

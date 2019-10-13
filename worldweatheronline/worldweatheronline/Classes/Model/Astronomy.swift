@@ -17,17 +17,13 @@ enum AstronomyCodingKeys: String, CodingKey {
   case moonIllumination = "moon_illumination"
 }
 
-struct Astronomy: Decodable, CustomStringConvertible {
+struct Astronomy: Decodable {
   let sunrise:String?
   let sunset:String?
   let moonrise:String?
   let moonset:String?
   let moonPhase:String?
   let moonIllumination:String?
-
-  var description: String {
-    return "Astronomy"
-  }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: AstronomyCodingKeys.self)

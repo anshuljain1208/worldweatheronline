@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct  SearchResult: CustomStringConvertible {
+struct  SearchResult {
   let query:String
   let results:[City]
   init(query:String, jsonData: Data) throws {
@@ -21,8 +21,5 @@ struct  SearchResult: CustomStringConvertible {
     } else {
       results = [City]()
     }
-  }
-  var description:String {
-    return "query:\(query), " + "results:\(results)"
   }
 }

@@ -15,14 +15,14 @@ enum CurrentConditionCodingKeys: String, CodingKey {
   case weatherCode = "weatherCode"
   case windSpeedInMiles = "windspeedMiles"
   case windSpeedInKmph = "windspeedKmph"
-  case windDirection = "110"
-  case windDirection16Point = "ESE"
+  case windDirection = "winddirDegree"
+  case windDirection16Point = "winddir16Point"
   case precipitationInMM = "precipMM"
   case precipitationInInches = "precipInches"
   case humidity = "humidity"
-  case visibility = "visibility"
+  case visibilityInKMPH = "visibility"
   case visibilityInMiles = "visibilityMiles"
-  case pressure = "pressure"
+  case pressureInMillibars = "pressure"
   case pressureInInches = "pressureInches"
   case cloudCover = "cloudcover"
   case uvIndex = "uvIndex"
@@ -31,33 +31,29 @@ enum CurrentConditionCodingKeys: String, CodingKey {
   case weatherIconUrl = "weatherIconUrl"
 }
 
-struct CurrentCondition: Decodable, CustomStringConvertible {
+struct CurrentCondition: Decodable {
   let time:Date?
-  let temperatureInC:Int?
-  let temperatureInF:Int?
+  private let temperatureInC:Int?
+  private let temperatureInF:Int?
   let weatherDescription:String?
   //TODO make it Enum
   let weatherCode:Int?
-  let windSpeedInMiles:Int?
-  let windSpeedInKmph:Int?
+  private let windSpeedInMiles:Int?
+  private let windSpeedInKmph:Int?
   let windDirection:Int?
   let windDirection16Point:String?
   let precipitationInMM:Double?
   let precipitationInInches:Double?
   let humidity:Double?
-  let visibility:Int?
-  let visibilityInMiles:Int?
-  let pressure:Int?
-  let pressureInInches:Double?
+  private let visibilityInKMPH:Int?
+  private let visibilityInMiles:Int?
+  private let pressureInMillibars:Int?
+  private let pressureInInches:Double?
   let cloudCover:Int?
 //  let uvIndex:Int?
-  let temperatureFeelingInC:Int?
-  let temperatureFeelingInF:Int?
+  private let temperatureFeelingInC:Int?
+  private let temperatureFeelingInF:Int?
   let weatherIconUrl:URL?
-
-  var description: String {
-    return "CurrentCondition"
-  }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CurrentConditionCodingKeys.self)
@@ -73,13 +69,13 @@ struct CurrentCondition: Decodable, CustomStringConvertible {
     windSpeedInMiles = try container.decodeNumericIfPresent(Int.self, forKey: .windSpeedInMiles)
     windSpeedInKmph = try container.decodeNumericIfPresent(Int.self, forKey: .windSpeedInKmph)
     windDirection = try container.decodeNumericIfPresent(Int.self, forKey: .windDirection)
-    windDirection16Point = try container.decodeStringIfPresent(forKey: .windDirection16Point)
+    windDirection16Point = try container.decodeIfPresent(String.self, forKey: .windDirection16Point)
     precipitationInMM = try container.decodeNumericIfPresent(Double.self, forKey: .precipitationInMM)
     precipitationInInches = try container.decodeNumericIfPresent(Double.self, forKey: .precipitationInInches)
     humidity = try container.decodeNumericIfPresent(Double.self, forKey: .humidity)
-    visibility = try container.decodeNumericIfPresent(Int.self, forKey: .visibility)
+    visibilityInKMPH = try container.decodeNumericIfPresent(Int.self, forKey: .visibilityInKMPH)
     visibilityInMiles = try container.decodeNumericIfPresent(Int.self, forKey: .visibilityInMiles)
-    pressure = try container.decodeNumericIfPresent(Int.self, forKey: .pressure)
+    pressureInMillibars = try container.decodeNumericIfPresent(Int.self, forKey: .pressureInMillibars)
     pressureInInches = try container.decodeNumericIfPresent(Double.self, forKey: .pressureInInches)
     cloudCover = try container.decodeNumericIfPresent(Int.self, forKey: .cloudCover)
 //    uvIndex = try container.decodeNumericIfPresent(Int.self, forKey: .uvIndex)
@@ -87,5 +83,25 @@ struct CurrentCondition: Decodable, CustomStringConvertible {
     temperatureFeelingInF = try container.decodeNumericIfPresent(Int.self, forKey: .temperatureFeelingInF)
     let urlString = try container.decodeStringIfPresent(forKey: .weatherIconUrl) ?? ""
     weatherIconUrl = URL(string: urlString)
+  }
+
+  var temperature:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.temperatureInC, inFahrenheit: self.temperatureInF)
+  }
+
+  var temperatureFeeling:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.temperatureFeelingInC, inFahrenheit: self.temperatureFeelingInF)
+  }
+
+  var visibility:String {
+    return UserPreferenceFormatter.localizedDistance(inKM: visibilityInKMPH, inMiles: visibilityInMiles)
+  }
+
+  var windSpeed:String {
+    return UserPreferenceFormatter.localizedSpeed(inKilometersPerHour: windSpeedInKmph, inMilesPerHour: windSpeedInMiles)
+  }
+
+  var pressure:String {
+    return UserPreferenceFormatter.localizedPressure(inMillibars: pressureInMillibars, inchesOfMercury: pressureInInches)
   }
 }

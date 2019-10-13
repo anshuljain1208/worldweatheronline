@@ -29,20 +29,17 @@ enum HourlyConditionCodingKeys: String, CodingKey {
   case chanceOfThunder = "chanceofthunder"
 }
 
-struct HourlyCondition: Decodable, CustomStringConvertible {
-  var description: String {
-    return  "HourlyCondition" + " Conditions:" + conditions.description
-  }
+struct HourlyCondition: Decodable {
 
   let conditions:CurrentCondition
-  let heatIndexInC:Int?
-  let heatIndexInF:Int?
-  let dewPointInC:Int?
-  let dewPointInF:Int?
-  let windChillInC:Int?
-  let windChillInF:Int?
-  let windGustInMiles:Int?
-  let windGustInKmph:Int?
+  private let heatIndexInC:Int?
+  private let heatIndexInF:Int?
+  private let dewPointInC:Int?
+  private let dewPointInF:Int?
+  private let windChillInC:Int?
+  private let windChillInF:Int?
+  private let windGustInMiles:Int?
+  private let windGustInKmph:Int?
   let chanceOfRain:Int?
   let chanceOfRemDry:Int?
   let chanceOfWindy:Int?
@@ -78,4 +75,19 @@ struct HourlyCondition: Decodable, CustomStringConvertible {
     chanceOfThunder = try container.decodeNumericIfPresent(Int.self, forKey: .chanceOfThunder)
   }
 
+  var windGust:String {
+    return UserPreferenceFormatter.localizedDistance(inKM: windGustInKmph, inMiles: windGustInMiles)
+  }
+
+  var windChill:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.windChillInC, inFahrenheit: self.windChillInF)
+  }
+
+  var dewPoint:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.dewPointInC, inFahrenheit: self.dewPointInF)
+  }
+
+  var heat:String {
+    return UserPreferenceFormatter.localizedTemp(inCelsius: self.heatIndexInC, inFahrenheit: self.heatIndexInF)
+  }
 }

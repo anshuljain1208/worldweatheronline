@@ -25,12 +25,8 @@ extension DataError: LocalizedError {
     }
 }
 
-struct CityWeatherWrapper: Decodable, CustomStringConvertible {
+struct CityWeatherWrapper: Decodable {
   let data:CityWeather
-
-  var description: String {
-    return "CityWeatherWrapper" + " " + data.description
-  }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CityWeatherWrapperCodingKeys.self)
@@ -51,13 +47,9 @@ enum CityWeatherCodingKeys: String, CodingKey {
 }
 
 
-struct CityWeather: Decodable, CustomStringConvertible {
+struct CityWeather: Decodable {
   let currentConditionList:[CurrentCondition]
   let dayWeather:[CityDayWeather]
-
-  var description: String {
-    return "CityWeather"
-  }
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CityWeatherCodingKeys.self)

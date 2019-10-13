@@ -107,16 +107,17 @@ class UserPreferenceFormatterTests: XCTestCase {
 
     UserPreferenceFormatterMock.locale = Locale(identifier: "en_IN")
     let speed_in = UserPreferenceFormatterMock.speed(speedInKilometersPerHour: km)
-    XCTAssert("\(Int(km)) kph" == speed_in, "Should be equal \(km) == \(speed_in)")
+    //Results is different on ios12 and ios 13
+    XCTAssert("\(Int(km)) kph" == speed_in || "\(Int(km)) km/hr" == speed_in, "Should be equal \(km) == \(speed_in)")
 
     let speed_in_1 = UserPreferenceFormatterMock.speed(speedInMilesPerHour: miles)
-    XCTAssert("\(Int(km)) kph" == speed_in_1, "Should be equal \(km) == \(speed_in_1)")
+    XCTAssert("\(Int(km)) kph" == speed_in_1 || "\(Int(km)) km/hr" == speed_in_1, "Should be equal \(km) == \(speed_in_1)")
 
     let speed_in_2 = UserPreferenceFormatterMock.localizedSpeed(inKilometersPerHour: nil, inMilesPerHour: Int(miles))
-    XCTAssert("\(Int(km)) kph" == speed_in_2, "Should be equal \(km) == \(speed_in_2)")
+    XCTAssert("\(Int(km)) kph" == speed_in_2 || "\(Int(km)) km/hr" == speed_in_2 , "Should be equal \(km) == \(speed_in_2)")
 
     let speed_in_3 = UserPreferenceFormatterMock.localizedSpeed(inKilometersPerHour: Int(km), inMilesPerHour: nil)
-    XCTAssert("\(Int(km)) kph" == speed_in_3, "Should be equal \(km) == \(speed_in_3)")
+    XCTAssert("\(Int(km)) kph" == speed_in_3 || "\(Int(km)) km/hr" == speed_in_3, "Should be equal \(km) == \(speed_in_3)")
 
     let speed = UserPreferenceFormatterMock.localizedSpeed(inKilometersPerHour: nil, inMilesPerHour: nil)
     XCTAssert("Unknown" == speed, "Should be equal Unknown == \(speed)")

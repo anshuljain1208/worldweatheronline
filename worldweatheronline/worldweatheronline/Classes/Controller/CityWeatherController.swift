@@ -12,6 +12,7 @@ class CityWeatherController: UITableViewController {
 
   let city:City
   let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
+  var weatherReport: CityWeather? = nil
   init(city: City) {
     self.city = city
     super.init(style: .plain)
@@ -40,11 +41,16 @@ class CityWeatherController: UITableViewController {
         self.activityIndicatorView.stopAnimating()
       }
       switch result {
-      case .success(let searchResult):
-         print("searchResult \(searchResult)")
+      case .success(let weatherReport):
+          self.weatherReport = weatherReport
+         print("searchResult \(weatherReport)")
         case .failure(let error):
           print("downloadWeatherUpdate error \(error)");
       }
     }
+  }
+
+  func didDownloadWeatherReport() {
+
   }
 }

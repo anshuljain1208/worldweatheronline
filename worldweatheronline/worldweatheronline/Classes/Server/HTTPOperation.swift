@@ -124,8 +124,10 @@ class HTTPOperation: Operation {
     }
 
     func finish() {
-        NetworkIndicator.hide()
-        self.willChangeValue(forKey: "isExecuting")
+        if (_executing) {
+          NetworkIndicator.hide()
+        }
+       self.willChangeValue(forKey: "isExecuting")
         self.willChangeValue(forKey: "isFinished")
         _executing = false
         _finished = true
@@ -150,6 +152,7 @@ class HTTPOperation: Operation {
         self.didChangeValue(forKey: "isExecuting")
         self.didChangeValue(forKey: "isFinished")
         NetworkIndicator.show()
+       print("NetworkIndicator.show \(identifier)")
         task?.resume()
     }
 

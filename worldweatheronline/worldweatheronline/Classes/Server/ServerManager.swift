@@ -151,7 +151,7 @@ class ServerManager {
           switch result {
           case .success(let jsonData):
             do {
-              let searchResult = try SearchResult(query: "serachResults", jsonData: jsonData)
+              let searchResult = try SearchResult(query: query, jsonData: jsonData)
               print("searchResult \(searchResult)")
               completionHandler(.success(searchResult))
             } catch {

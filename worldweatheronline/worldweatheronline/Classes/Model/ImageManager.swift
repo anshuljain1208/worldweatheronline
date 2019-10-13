@@ -53,9 +53,11 @@ class Cache: NSObject, NSCacheDelegate {
       }
     }
     func object(forKey key: String) -> UIImage? {
+      var image:UIImage?
       cacheQueue.sync {
-        return dictionary[key]
+        image = dictionary[key]
       }
+      return image
     }
 
     func set(object obj: UIImage, forKey key: String) {

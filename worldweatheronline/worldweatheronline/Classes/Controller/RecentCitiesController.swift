@@ -8,26 +8,62 @@
 
 import UIKit
 
+struct RecentCitiesControllerStrings {
+   static let title = "World Weather"
+   static let searchBarPlaceholder = "Search cities"
+   static let  messageForEmptySearch = "To search please type atleast 3 characters and press Search."
+   static let  messageForEmptyRecents = "You don't have any recents visited cities. Please try searching cities."
+   static let  messageForEmptySearchResults = "Unable to found any results for \"%@\". Please try searching something else."
+}
+
+struct RecentCitiesControllerIdentifiers {
+  static let searchBarAccessibilityIdentifier = "recentCities_searchBar"
+  static let citySearchCell = "CitySearchCell"
+}
+
 class RecentCitiesController: UITableViewController {
 
   var recentCities:[City]  {
     return RecentCities.sharedInstance.list
   }
 
+  let messageLabel = UILabel()
+  let tableBackgroundView = UIView()
   var searchResult:SearchResult? = nil
   let searchController = UISearchController(searchResultsController: nil)
+  let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
+  var searchTerms = ""
+  var searchWasCancelled = false
+
   override func viewDidLoad() {
-    self.title = "World Weather"
+    self.title = RecentCitiesControllerStrings.title
     super.viewDidLoad()
+    activityIndicatorView.color = UIColor.gray
+    activityIndicatorView.hidesWhenStopped = true
+
     searchController.searchResultsUpdater = self
     searchController.obscuresBackgroundDuringPresentation = false
-    searchController.searchBar.placeholder = "Search cities"
+    searchController.searchBar.placeholder = RecentCitiesControllerStrings.searchBarPlaceholder
     searchController.delegate = self
+    searchController.searchBar.delegate = self
+    searchController.searchBar.accessibilityIdentifier = RecentCitiesControllerIdentifiers.searchBarAccessibilityIdentifier
     navigationItem.searchController = searchController
     definesPresentationContext = true
 
     tableView.tableFooterView = UIView()
     NotificationCenter.default.addObserver(self, selector: #selector(RecentCitiesController.didUpdateRecentCities), name: .didUpdateRecentCities, object: nil)
+    self.tableView.backgroundView = tableBackgroundView
+    tableBackgroundView.addSubview(messageLabel)
+    messageLabel.translatesAutoresizingMaskIntoConstraints = false
+    let views: [String: UIView] = ["view": self.messageLabel]
+    let vertical = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[view]-16-|", metrics: nil,views: views)
+    let horizontal = NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[view]-16-|", metrics: nil, views: views)
+    tableBackgroundView.addConstraints(vertical)
+    tableBackgroundView.addConstraints(horizontal)
+    messageLabel.font = .systemFont(ofSize: UIFont.systemFontSize)
+    messageLabel.textAlignment = .center
+    messageLabel.numberOfLines = 0
+    messageLabel.textColor = .gray
   }
 
   deinit {
@@ -44,11 +80,25 @@ class RecentCitiesController: UITableViewController {
 
   //MARK: TableView Data Source
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    var rows = 0
     if searchController.isActive {
-      return searchResult?.results.count ?? 0
+      rows = searchResult?.results.count ?? 0
     } else {
-      return recentCities.count
+      rows = recentCities.count
     }
+    if rows == 0 {
+      messageLabel.isHidden = false
+      if searchController.isActive {
+        if (searchController.searchBar.text?.count ?? 0 < 3) {
+          messageLabel.text = RecentCitiesControllerStrings.messageForEmptySearch
+        }
+      } else {
+        messageLabel.text = RecentCitiesControllerStrings.messageForEmptyRecents
+      }
+    } else {
+      messageLabel.isHidden = true
+    }
+    return rows
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int  {
@@ -65,7 +115,7 @@ class RecentCitiesController: UITableViewController {
 
   //MARK: TableView Data Delegate
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CitySearchCell", for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: RecentCitiesControllerIdentifiers.citySearchCell, for: indexPath)
     let city = cityAtIndex(indexPath.row)
     cell.textLabel?.text = city.name
     cell.detailTextLabel?.text = city.country
@@ -80,7 +130,7 @@ class RecentCitiesController: UITableViewController {
 
 }
 
-extension RecentCitiesController: UISearchControllerDelegate {
+extension RecentCitiesController: UISearchControllerDelegate,UISearchBarDelegate {
   func didDismissSearchController(_ searchController: UISearchController) {
     self.tableView.reloadData()
   }
@@ -88,24 +138,74 @@ extension RecentCitiesController: UISearchControllerDelegate {
   func didPresentSearchController(_ searchController: UISearchController) {
     self.tableView.reloadData()
   }
-}
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    search()
+  }
 
-extension RecentCitiesController: UISearchResultsUpdating {
-  func updateSearchResults(for searchController: UISearchController) {
+  func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool  {
+    return !activityIndicatorView.isAnimating
+  }
+
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    if searchWasCancelled {
+      searchWasCancelled = false
+      searchBar.text = self.searchTerms
+    }
+  }
+
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    searchWasCancelled = true
+    self.searchTerms = searchBar.text ?? ""
+  }
+
+  func search(_ animate:Bool = true) {
     guard let text = searchController.searchBar.text, text.count > 2 else {
       return
+    }
+    if animate {
+      startAnimatingActivityViewer()
     }
     ServerManager.shared.dynamicSearch(city: text) { (result) in
       switch result {
       case .success(let searchResult):
-        print("updateSearchResults success \(searchResult)");
         DispatchQueue.main.async {
+          if text != searchResult.query {
+            return
+          }
           self.searchResult = searchResult
+          if animate {
+            self.stopAnimatingActivityViewer()
+            if searchResult.results.count == 0 {
+              self.messageLabel.text = String(format:RecentCitiesControllerStrings.messageForEmptySearchResults,searchResult.query)
+            }
+          }
           self.tableView.reloadData()
         }
-        case .failure(let error):
-          print("updateSearchResults error \(error)");
+      case .failure(let error):
+        self.messageLabel.text = String(format:RecentCitiesControllerStrings.messageForEmptySearchResults,text)
       }
     }
+  }
+
+  func startAnimatingActivityViewer() {
+    tableView.backgroundView = activityIndicatorView
+    activityIndicatorView.startAnimating()
+  }
+
+  func stopAnimatingActivityViewer() {
+    tableView.backgroundView = tableBackgroundView
+    activityIndicatorView.stopAnimating()
+  }
+
+}
+
+
+extension RecentCitiesController: UISearchResultsUpdating {
+  func updateSearchResults(for searchController: UISearchController) {
+    search(false)
+  }
+
+  func showAlert() {
+
   }
 }

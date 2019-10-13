@@ -89,7 +89,7 @@ struct City: Decodable, Encodable {
 }
 
 extension City: Equatable {
-  static func == (lhs: Self, rhs: Self) -> Bool {
+  static func == (lhs: City, rhs: City) -> Bool {
     if lhs.name == rhs.name, lhs.region == rhs.region, lhs.region == rhs.region {
       return true
     }

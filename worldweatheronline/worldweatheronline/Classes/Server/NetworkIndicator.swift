@@ -13,6 +13,7 @@ class NetworkIndicator {
   static let shared = NetworkIndicator()
   var activityCount:Int = 0 {
     didSet {
+      print("NetworkIndicator activityCount \(activityCount)")
       if activityCount > 0 {
         showNetworkIndicator()
       }
@@ -27,15 +28,10 @@ class NetworkIndicator {
     if UIApplication.shared.isNetworkActivityIndicatorVisible {
       UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
-
   }
 
   private func showNetworkIndicator() {
-    DispatchQueue.main.async {
-      if !UIApplication.shared.isNetworkActivityIndicatorVisible {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-      }
-    }
+    UIApplication.shared.isNetworkActivityIndicatorVisible = true
   }
 
   public class func hide() {

@@ -117,7 +117,7 @@ class ImageManagerTests: XCTestCase {
       case .success(let image):
         print("image \(image)")
         imageCache = image
-        XCTAssert(image == self.imageManager.image(forKey: self.mockURL().key),"should not reach here")
+        XCTAssert(image === self.imageManager.image(forKey: self.mockURL().key),"should not reach here")
       case .failure(_):
         XCTAssert(false,"should not reach here")
       }

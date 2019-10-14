@@ -37,7 +37,7 @@ class RecentCitiesController: UITableViewController {
   let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
   var searchTerms = ""
   var searchWasCancelled = false
-
+  var searchControllerIsActive = false
   override func viewDidLoad() {
     self.title = RecentCitiesControllerStrings.title
     super.viewDidLoad()
@@ -75,7 +75,7 @@ class RecentCitiesController: UITableViewController {
 
   @objc func didUpdateRecentCities() {
     DispatchQueue.main.async {
-      if self.searchController.isActive == false{
+      if self.searchControllerIsActive == false{
         self.tableView.reloadData()
       }
     }
@@ -84,14 +84,14 @@ class RecentCitiesController: UITableViewController {
   //MARK: TableView Data Source
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     var rows = 0
-    if searchController.isActive {
+    if searchControllerIsActive {
       rows = searchResult?.results.count ?? 0
     } else {
       rows = recentCities.count
     }
     if rows == 0 {
       messageLabel.isHidden = false
-      if searchController.isActive {
+      if searchControllerIsActive {
         if (searchController.searchBar.text?.count ?? 0 < 3) {
           messageLabel.text = RecentCitiesControllerStrings.messageForEmptySearch
         }
@@ -109,7 +109,7 @@ class RecentCitiesController: UITableViewController {
   }
 
   func cityAtIndex(_ index: Int) -> City {
-    if searchController.isActive {
+    if searchControllerIsActive {
       return searchResult!.results[index]
     } else {
       return recentCities[index]
@@ -135,15 +135,19 @@ class RecentCitiesController: UITableViewController {
 
 extension RecentCitiesController: UISearchControllerDelegate,UISearchBarDelegate {
   func didDismissSearchController(_ searchController: UISearchController) {
+    searchControllerIsActive = false
     self.tableView.reloadData()
   }
 
   func didPresentSearchController(_ searchController: UISearchController) {
+    searchControllerIsActive = true
     self.tableView.reloadData()
   }
+
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     search()
   }
+
 
   func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool  {
     return !activityIndicatorView.isAnimating
@@ -154,6 +158,7 @@ extension RecentCitiesController: UISearchControllerDelegate,UISearchBarDelegate
       searchWasCancelled = false
       searchBar.text = self.searchTerms
     }
+    self.tableView.reloadData()
   }
 
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

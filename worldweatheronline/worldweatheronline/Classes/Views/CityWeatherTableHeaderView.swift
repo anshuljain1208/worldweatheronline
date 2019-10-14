@@ -15,11 +15,14 @@ class CityWeatherTableHeaderView: UITableViewHeaderFooterView {
     super.init(reuseIdentifier: reuseIdentifier)
 
     self.backgroundView = UIView()
-    self.backgroundView?.backgroundColor = .white
+    if traitCollection.userInterfaceStyle == .dark {
+        self.backgroundView?.backgroundColor = .black
+    } else {
+        self.backgroundView?.backgroundColor = .white
+    }
   }
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
 }

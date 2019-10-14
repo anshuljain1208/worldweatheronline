@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CityWeatherTableCellTableViewCell: UITableViewCell {
+class CityWeatherTableCell: UITableViewCell {
 
   @IBOutlet weak var subtitleLabel: TitleWithSubtitleLabel!
   @IBOutlet weak var titleLabel: UILabel!

@@ -63,7 +63,7 @@ class CityWeatherController: UITableViewController {
     tableView.tableFooterView = UIView()
     RecentCities.sharedInstance.add(city: city)
     downloadWeatherUpdate()
-    tableView.register(UINib(nibName: "CityWeatherTableCellTableViewCell", bundle: nil), forCellReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherCell)
+    tableView.register(UINib(nibName: "CityWeatherTableCell", bundle: nil), forCellReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherCell)
     tableView.register(UINib(nibName: "CityWeatherGenricTableCell", bundle: nil), forCellReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherGenricCell)
     tableView.register(CityWeatherTableHeaderView.self, forHeaderFooterViewReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherHeaderCell)
     tableView.separatorStyle = .none
@@ -125,7 +125,7 @@ class CityWeatherController: UITableViewController {
 
   //MARK: TableView Data Delegate
   func weatherCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherCell, for: indexPath) as? CityWeatherTableCellTableViewCell else {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: CityWeatherControllerIdentifiers.cityWeatherCell, for: indexPath) as? CityWeatherTableCell else {
       return UITableViewCell()
     }
     if let currentCondition =  self.weatherReport?.currentConditionList.first {
@@ -178,7 +178,7 @@ class CityWeatherController: UITableViewController {
     switch indexPath.row {
     case 0:
       cell.titleLabel.subtitle = String(format: CityWeatherControllerStrings.visibilityValue,self.weatherReport?.currentConditionList.first?.visibility ?? "")
-      cell.titleLabel.title = String(format: CityWeatherControllerStrings.visibilityHeader)
+      cell.titleLabel.title = String(format: CityWeatherControllerStrings.visibilityTitle)
 
       cell.subtitleLabel.subtitle = String(format: CityWeatherControllerStrings.cloudCoverValue,String(self.weatherReport?.currentConditionList.first?.cloudCover ?? 0) )
       cell.subtitleLabel.title = String(format: CityWeatherControllerStrings.cloudCoverTitle)

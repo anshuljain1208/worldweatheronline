@@ -13,13 +13,13 @@ class TitleWithSubtitleLabel: UILabel {
   private var attributedSubtitle = NSAttributedString()
   private var attributedTitle = NSAttributedString()
 
-  internal var subtitleAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.boldSystemFont(ofSize: 16)] {
+  internal var titleAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.boldSystemFont(ofSize: 16)] {
     didSet {
       updateAttributedText()
     }
   }
 
-  internal var titleAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 16)] {
+  internal var subtitleAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 16)] {
     didSet {
       updateAttributedText()
     }

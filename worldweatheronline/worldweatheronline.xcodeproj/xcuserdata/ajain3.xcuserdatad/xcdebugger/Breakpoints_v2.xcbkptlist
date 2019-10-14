@@ -160,6 +160,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "DEB895D4-314A-4683-9B21-874BD19B660D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -176,6 +177,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "C851F70A-4E1D-44A3-B1EE-44AD63918FB6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -192,6 +194,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "3376442E-2858-4D58-9B41-EDB0DA65E280"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -205,6 +208,7 @@
             landmarkType = "7">
             <Locations>
                <Location
+                  uuid = "3376442E-2858-4D58-9B41-EDB0DA65E280 - 61aab8f4e93dfc08"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -212,14 +216,14 @@
                   moduleName = "worldweatheronline"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ajain3/Development/Local/worldweatheronline/worldweatheronline/worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-                  timestampString = "592682567.216195"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "171"
                   endingLineNumber = "171"
-                  offsetFromSymbolStart = "624">
+                  offsetFromSymbolStart = "631">
                </Location>
                <Location
+                  uuid = "3376442E-2858-4D58-9B41-EDB0DA65E280 - 2e6a0f73791d9282"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -227,30 +231,13 @@
                   moduleName = "worldweatheronline"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ajain3/Development/Local/worldweatheronline/worldweatheronline/worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-                  timestampString = "592682567.217562"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "171"
                   endingLineNumber = "171"
-                  offsetFromSymbolStart = "284">
+                  offsetFromSymbolStart = "191">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "worldweatheronline/Classes/Controller/CityWeatherController.swift"
-            timestampString = "592683784.03652"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "windCell(_:cellForRowAt:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

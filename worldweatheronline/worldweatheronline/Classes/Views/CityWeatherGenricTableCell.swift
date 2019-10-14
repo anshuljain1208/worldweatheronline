@@ -10,8 +10,8 @@ import UIKit
 
 class CityWeatherGenricTableCell: UITableViewCell {
 
-  @IBOutlet weak var subtitleLabel: TitleWithSubtitleLabel!
-  @IBOutlet weak var titleLabel: TitleWithSubtitleLabel!
+  @IBOutlet weak var subtitleLabel: CityWeatherGenricLabel!
+  @IBOutlet weak var titleLabel: CityWeatherGenricLabel!
   override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

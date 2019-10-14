@@ -70,11 +70,22 @@ class worldweatheronlineUITests: XCTestCase {
     func goBackToRecents() {
       let app = XCUIApplication()
       goBack()
-      let resultView = app.otherElements["recentCities_tableView"]
+      let resultView = app.tables["recentCities_tableView"]
       let viewExists = resultView.waitForExistence(timeout: 2)
       XCTAssert(viewExists)
-
     }
+
+     func waitForWeatherToLoad() {
+      let app = XCUIApplication()
+      let resultView = app.tables["weather_tableView"]
+      let viewExists = resultView.waitForExistence(timeout: 2)
+      XCTAssert(viewExists)
+      let cellsCountPredicate = NSPredicate(format: "cells.count > 0")
+      self.expectation(for: cellsCountPredicate, evaluatedWith: resultView, handler: nil)
+      self.waitForExpectations(timeout: 120) { (error) in
+          XCTAssertTrue(error == nil);
+      }
+     }
 
     func testExample() {
       var tableView = recentCityTableView()
@@ -88,7 +99,7 @@ class worldweatheronlineUITests: XCTestCase {
       let cityName = firstCell.staticTexts["recentCities_cell_city_title"].label
       firstCell.tap()
       //Wait for Weather Report to download
-      sleep(3)
+      waitForWeatherToLoad()
       goBackToRecents()
       cancelSearch()
       //Back to recent cities list
@@ -96,6 +107,7 @@ class worldweatheronlineUITests: XCTestCase {
       let firstRecentCityCell = recentCityTableViewCell(atIndex: 0)
       XCTAssert(firstRecentCityCell.staticTexts["recentCities_cell_city_title"].label == cityName)
       firstRecentCityCell.tap()
+      waitForWeatherToLoad()
       goBackToRecents()
 
       search_recentCity(text: "New York")
@@ -103,7 +115,7 @@ class worldweatheronlineUITests: XCTestCase {
       let firstCell1 = recentCityTableViewCell(atIndex: 0)
       let cityName1 = firstCell1.staticTexts["recentCities_cell_city_title"].label
       firstCell1.tap()
-      sleep(3)
+      waitForWeatherToLoad()
       goBackToRecents()
       cancelSearch()
       XCTAssert(tableView.cells.count == 2)
@@ -112,7 +124,7 @@ class worldweatheronlineUITests: XCTestCase {
 
       var secondCell = recentCityTableViewCell(atIndex: 1)
       secondCell.tap()
-      sleep(3)
+      waitForWeatherToLoad()
       goBackToRecents()
       firstRecentCityCell1 = recentCityTableViewCell(atIndex: 0)
       XCTAssert(firstRecentCityCell1.staticTexts["recentCities_cell_city_title"].label == cityName)
@@ -142,7 +154,7 @@ class worldweatheronlineUITests: XCTestCase {
         let cityName = firstCell1.staticTexts["recentCities_cell_city_title"].label
         cityList.insert(cityName, at: 0)
         firstCell1.tap()
-        sleep(3)
+        waitForWeatherToLoad()
         goBackToRecents()
         cancelSearch()
       }

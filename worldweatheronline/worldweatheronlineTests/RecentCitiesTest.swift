@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-@testable import worldweatheronline
+@testable import Weather
 
 class RecentCities_Storage :RecentCities {
   override var storageURL: URL {

@@ -12,6 +12,7 @@ struct CityWeatherControllerIdentifiers {
   static let cityWeatherCell = "cityWeatherCell"
   static let cityWeatherHeaderCell = "cityWeatherHeaderCell"
   static let cityWeatherGenricCell = "cityWeatherGenricCell"
+  static let cityWeatherTableIdentifer = "weather_tableView"
 }
 
 struct CityWeatherControllerStrings {
@@ -74,6 +75,8 @@ class CityWeatherController: UITableViewController {
     tableView.register(CityWeatherTableHeaderView.self, forHeaderFooterViewReuseIdentifier: CityWeatherControllerIdentifiers.cityWeatherHeaderCell)
     tableView.separatorStyle = .none
     tableView.allowsSelection = false
+    tableView.accessibilityIdentifier = CityWeatherControllerIdentifiers.cityWeatherTableIdentifer
+
   }
 
   func downloadWeatherUpdate() {

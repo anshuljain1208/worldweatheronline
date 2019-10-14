@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import worldweatheronline
+@testable import Weather
 
 class HTTPOperationTest: XCTestCase {
 

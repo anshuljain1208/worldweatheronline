@@ -123,15 +123,15 @@
 		CF18845F234F7DC400E1AFEF /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
 		CF188461234F7F2700E1AFEF /* HourlyCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyCondition.swift; sourceTree = "<group>"; };
 		CF1884632350133B00E1AFEF /* CityDayWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityDayWeather.swift; sourceTree = "<group>"; };
-		CF45826E234CD3C700F76327 /* worldweatheronline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = worldweatheronline.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF45826E234CD3C700F76327 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF458276234CD3C800F76327 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF458278234CD3CE00F76327 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF45827B234CD3CE00F76327 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF45827D234CD3CE00F76327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CF458282234CD3CE00F76327 /* worldweatheronlineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = worldweatheronlineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF458282234CD3CE00F76327 /* WorldWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF458286234CD3CE00F76327 /* CityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTests.swift; sourceTree = "<group>"; };
 		CF458288234CD3CE00F76327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CF45828D234CD3CE00F76327 /* worldweatheronlineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = worldweatheronlineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF45828D234CD3CE00F76327 /* WorldWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF458291234CD3CE00F76327 /* worldweatheronlineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = worldweatheronlineUITests.swift; sourceTree = "<group>"; };
 		CF458293234CD3CE00F76327 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CF4B191C235379810072D53B /* CityWeatherTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherTableCell.swift; sourceTree = "<group>"; };
@@ -285,9 +285,9 @@
 		CF45826F234CD3C700F76327 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CF45826E234CD3C700F76327 /* worldweatheronline.app */,
-				CF458282234CD3CE00F76327 /* worldweatheronlineTests.xctest */,
-				CF45828D234CD3CE00F76327 /* worldweatheronlineUITests.xctest */,
+				CF45826E234CD3C700F76327 /* Weather.app */,
+				CF458282234CD3CE00F76327 /* WorldWeatherTests.xctest */,
+				CF45828D234CD3CE00F76327 /* WorldWeatherUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -333,9 +333,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CF45826D234CD3C700F76327 /* worldweatheronline */ = {
+		CF45826D234CD3C700F76327 /* Weather */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF458296234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "worldweatheronline" */;
+			buildConfigurationList = CF458296234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "Weather" */;
 			buildPhases = (
 				CF45826A234CD3C700F76327 /* Sources */,
 				CF45826B234CD3C700F76327 /* Frameworks */,
@@ -345,14 +345,14 @@
 			);
 			dependencies = (
 			);
-			name = worldweatheronline;
+			name = Weather;
 			productName = worldweatheronline;
-			productReference = CF45826E234CD3C700F76327 /* worldweatheronline.app */;
+			productReference = CF45826E234CD3C700F76327 /* Weather.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CF458281234CD3CE00F76327 /* worldweatheronlineTests */ = {
+		CF458281234CD3CE00F76327 /* WorldWeatherTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF458299234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "worldweatheronlineTests" */;
+			buildConfigurationList = CF458299234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "WorldWeatherTests" */;
 			buildPhases = (
 				CF45827E234CD3CE00F76327 /* Sources */,
 				CF45827F234CD3CE00F76327 /* Frameworks */,
@@ -363,14 +363,14 @@
 			dependencies = (
 				CF458284234CD3CE00F76327 /* PBXTargetDependency */,
 			);
-			name = worldweatheronlineTests;
+			name = WorldWeatherTests;
 			productName = worldweatheronlineTests;
-			productReference = CF458282234CD3CE00F76327 /* worldweatheronlineTests.xctest */;
+			productReference = CF458282234CD3CE00F76327 /* WorldWeatherTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		CF45828C234CD3CE00F76327 /* worldweatheronlineUITests */ = {
+		CF45828C234CD3CE00F76327 /* WorldWeatherUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF45829C234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "worldweatheronlineUITests" */;
+			buildConfigurationList = CF45829C234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "WorldWeatherUITests" */;
 			buildPhases = (
 				CF458289234CD3CE00F76327 /* Sources */,
 				CF45828A234CD3CE00F76327 /* Frameworks */,
@@ -381,9 +381,9 @@
 			dependencies = (
 				CF45828F234CD3CE00F76327 /* PBXTargetDependency */,
 			);
-			name = worldweatheronlineUITests;
+			name = WorldWeatherUITests;
 			productName = worldweatheronlineUITests;
-			productReference = CF45828D234CD3CE00F76327 /* worldweatheronlineUITests.xctest */;
+			productReference = CF45828D234CD3CE00F76327 /* WorldWeatherUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -409,7 +409,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CF458269234CD3C700F76327 /* Build configuration list for PBXProject "worldweatheronline" */;
+			buildConfigurationList = CF458269234CD3C700F76327 /* Build configuration list for PBXProject "WorldWeather" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -422,9 +422,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF45826D234CD3C700F76327 /* worldweatheronline */,
-				CF458281234CD3CE00F76327 /* worldweatheronlineTests */,
-				CF45828C234CD3CE00F76327 /* worldweatheronlineUITests */,
+				CF45826D234CD3C700F76327 /* Weather */,
+				CF458281234CD3CE00F76327 /* WorldWeatherTests */,
+				CF45828C234CD3CE00F76327 /* WorldWeatherUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -534,12 +534,12 @@
 /* Begin PBXTargetDependency section */
 		CF458284234CD3CE00F76327 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CF45826D234CD3C700F76327 /* worldweatheronline */;
+			target = CF45826D234CD3C700F76327 /* Weather */;
 			targetProxy = CF458283234CD3CE00F76327 /* PBXContainerItemProxy */;
 		};
 		CF45828F234CD3CE00F76327 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CF45826D234CD3C700F76327 /* worldweatheronline */;
+			target = CF45826D234CD3C700F76327 /* Weather */;
 			targetProxy = CF45828E234CD3CE00F76327 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -693,7 +693,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.anshul.worldweatheronline;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Weather;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -712,7 +712,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.anshul.worldweatheronline;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Weather;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -735,7 +735,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/worldweatheronline.app/worldweatheronline";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weather.app/Weather";
 			};
 			name = Debug;
 		};
@@ -756,7 +756,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/worldweatheronline.app/worldweatheronline";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Weather.app/Weather";
 			};
 			name = Release;
 		};
@@ -774,9 +774,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.anshul.worldweatheronlineUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = worldweatheronline;
+				TEST_TARGET_NAME = Weather;
 			};
 			name = Debug;
 		};
@@ -794,16 +795,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.anshul.worldweatheronlineUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = worldweatheronline;
+				TEST_TARGET_NAME = Weather;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CF458269234CD3C700F76327 /* Build configuration list for PBXProject "worldweatheronline" */ = {
+		CF458269234CD3C700F76327 /* Build configuration list for PBXProject "WorldWeather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF458294234CD3CE00F76327 /* Debug */,
@@ -812,7 +814,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF458296234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "worldweatheronline" */ = {
+		CF458296234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "Weather" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF458297234CD3CE00F76327 /* Debug */,
@@ -821,7 +823,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF458299234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "worldweatheronlineTests" */ = {
+		CF458299234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "WorldWeatherTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF45829A234CD3CE00F76327 /* Debug */,
@@ -830,7 +832,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF45829C234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "worldweatheronlineUITests" */ = {
+		CF45829C234CD3CE00F76327 /* Build configuration list for PBXNativeTarget "WorldWeatherUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF45829D234CD3CE00F76327 /* Debug */,

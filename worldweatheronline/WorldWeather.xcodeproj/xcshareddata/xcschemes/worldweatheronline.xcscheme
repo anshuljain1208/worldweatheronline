@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CF45826D234CD3C700F76327"
-               BuildableName = "worldweatheronline.app"
-               BlueprintName = "worldweatheronline"
-               ReferencedContainer = "container:worldweatheronline.xcodeproj">
+               BuildableName = "Weather.app"
+               BlueprintName = "Weather"
+               ReferencedContainer = "container:WorldWeather.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,8 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      codeCoverageEnabled = "YES"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <PreActions>
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
@@ -38,40 +38,28 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "CF45826D234CD3C700F76327"
-                     BuildableName = "worldweatheronline.app"
-                     BlueprintName = "worldweatheronline"
-                     ReferencedContainer = "container:worldweatheronline.xcodeproj">
+                     BuildableName = "Weather.app"
+                     BlueprintName = "Weather"
+                     ReferencedContainer = "container:WorldWeather.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
             </ActionContent>
          </ExecutionAction>
       </PreActions>
-      <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CF458281234CD3CE00F76327"
-               BuildableName = "worldweatheronlineTests.xctest"
-               BlueprintName = "worldweatheronlineTests"
-               ReferencedContainer = "container:worldweatheronline.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CF45828C234CD3CE00F76327"
-               BuildableName = "worldweatheronlineUITests.xctest"
-               BlueprintName = "worldweatheronlineUITests"
-               ReferencedContainer = "container:worldweatheronline.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "MallocGuardEdges"
+            value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
          <AdditionalOption
             key = "MallocStackLogging"
             value = ""
+            isEnabled = "YES">
+         </AdditionalOption>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
             isEnabled = "YES">
          </AdditionalOption>
          <AdditionalOption
@@ -85,21 +73,33 @@
             isEnabled = "YES">
          </AdditionalOption>
          <AdditionalOption
-            key = "NSZombieEnabled"
-            value = "YES"
-            isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
-            key = "MallocGuardEdges"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
             key = "MallocScribble"
             value = ""
             isEnabled = "YES">
          </AdditionalOption>
       </AdditionalOptions>
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CF458281234CD3CE00F76327"
+               BuildableName = "WorldWeatherTests.xctest"
+               BlueprintName = "WorldWeatherTests"
+               ReferencedContainer = "container:WorldWeather.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CF45828C234CD3CE00F76327"
+               BuildableName = "WorldWeatherUITests.xctest"
+               BlueprintName = "WorldWeatherUITests"
+               ReferencedContainer = "container:WorldWeather.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -117,13 +117,11 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF45826D234CD3C700F76327"
-            BuildableName = "worldweatheronline.app"
-            BlueprintName = "worldweatheronline"
-            ReferencedContainer = "container:worldweatheronline.xcodeproj">
+            BuildableName = "Weather.app"
+            BlueprintName = "Weather"
+            ReferencedContainer = "container:WorldWeather.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -136,9 +134,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF45826D234CD3C700F76327"
-            BuildableName = "worldweatheronline.app"
-            BlueprintName = "worldweatheronline"
-            ReferencedContainer = "container:worldweatheronline.xcodeproj">
+            BuildableName = "Weather.app"
+            BlueprintName = "Weather"
+            ReferencedContainer = "container:WorldWeather.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -191,54 +191,5 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3376442E-2858-4D58-9B41-EDB0DA65E280"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-            timestampString = "592683784.036473"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "search(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "3376442E-2858-4D58-9B41-EDB0DA65E280 - 61aab8f4e93dfc08"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;worldweatheronline.SearchResult, Swift.Error&gt;) -&gt; () in worldweatheronline.RecentCitiesController.search(Swift.Bool) -&gt; ()"
-                  moduleName = "worldweatheronline"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ajain3/Development/Local/worldweatheronline/worldweatheronline/worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "171"
-                  endingLineNumber = "171"
-                  offsetFromSymbolStart = "631">
-               </Location>
-               <Location
-                  uuid = "3376442E-2858-4D58-9B41-EDB0DA65E280 - 2e6a0f73791d9282"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (Swift.Result&lt;worldweatheronline.SearchResult, Swift.Error&gt;) -&gt; () in worldweatheronline.RecentCitiesController.search(Swift.Bool) -&gt; ()"
-                  moduleName = "worldweatheronline"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ajain3/Development/Local/worldweatheronline/worldweatheronline/worldweatheronline/Classes/Controller/RecentCitiesController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "171"
-                  endingLineNumber = "171"
-                  offsetFromSymbolStart = "191">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -1,2 +1,1 @@
-2019-10-14 02:14:50.318 xcodebuild[23433:310901] [MT] DVTDeveloperPaths: WARNING: Environment variable XCODE_DEVELOPER_DIR_PATH is set, but is not an absolute path. The variable will be ignored. ()
 com.anshul.worldweatheronline

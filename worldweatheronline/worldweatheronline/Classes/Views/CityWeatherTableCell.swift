@@ -13,14 +13,13 @@ class CityWeatherTableCell: UITableViewCell {
   @IBOutlet weak var subtitleLabel: TitleWithSubtitleLabel!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var iconView: ImageView!
-  override func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     

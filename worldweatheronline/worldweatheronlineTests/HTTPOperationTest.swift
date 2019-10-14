@@ -159,7 +159,7 @@ class HTTPOperationTest: XCTestCase {
             }
             
             operationQueue?.addOperation(operation)
-            waitForExpectations(timeout: 40, handler: nil)
+            waitForExpectations(timeout: 240, handler: nil)
         }
         else {
             XCTAssert(false,"Unable to intialize url")

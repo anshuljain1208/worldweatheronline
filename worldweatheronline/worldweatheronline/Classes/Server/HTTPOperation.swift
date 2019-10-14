@@ -9,6 +9,9 @@
 
 import Foundation
 
+struct HTTPErrorMessages {
+  static let  genricErrorMessage = "We’re having some unexpected trouble getting this info for you right now."
+}
 
 public enum HTTPError: Error {
     case badHTTPStatus(reason: String, code: Int)
@@ -96,7 +99,7 @@ class HTTPOperation: Operation {
             }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
                 print(httpResponse)
-                let reason = "" //UserMessages.genricServerError
+              let reason = HTTPErrorMessages.genricErrorMessage 
                 completionHandler(.failure( HTTPError.badHTTPStatus(reason: reason, code: httpResponse.statusCode)))
                 return
             }

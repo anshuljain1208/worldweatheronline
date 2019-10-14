@@ -81,7 +81,8 @@ enum ServerQueryKey: String {
 
 struct ServerQuery {
   //?qry=united%20states&key=3c38a95745f843559ac41436190810&num_of_results=4
-  static let worldweatheronlineAPIKey = "3c38a95745f843559ac41436190810"
+//  static let worldweatheronlineAPIKey = "3c38a95745f843559ac41436190810" //gmail
+  static let worldweatheronlineAPIKey = "946fd7ee02794555ad774010191410" //icloud
   static let jsonValue = "json"
   static let sharedQuery:[ServerQueryKey: String] = [.apiKey: ServerQuery.worldweatheronlineAPIKey, .format: jsonValue]
   static let weatherParams:[ServerQueryKey: String] = [.dateFormat: ServerQueryValue.dateFormat,

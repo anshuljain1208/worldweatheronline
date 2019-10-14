@@ -21,6 +21,16 @@ class UserPreferenceFormatterMock: UserPreferenceFormatter {
   }
 }
 
+extension Locale {
+  var temperatureUnit: UnitTemperature {
+    let measureFormatter = MeasurementFormatter()
+    measureFormatter.locale = self
+    let measurement = Measurement(value: 0, unit: UnitTemperature.celsius)
+    let output = measureFormatter.string(from: measurement)
+    return output == "0°C" ? .celsius : .fahrenheit
+  }
+}
+
 class UserPreferenceFormatterTests: XCTestCase {
 
   func testDistance() {
@@ -59,31 +69,42 @@ class UserPreferenceFormatterTests: XCTestCase {
   func testTemperature() {
     let celsius:Double = 10
     let fahrenheit:Double = 50 //6.21371
+    let formatFahrenheit = "\(Int(fahrenheit))°F"
+    let formatCelsius = "\(Int(celsius))°C"
+    var outputFormat = formatFahrenheit
     UserPreferenceFormatterMock.locale = Locale(identifier: "en_US")
+    if UserPreferenceFormatterMock.locale?.temperatureUnit == .celsius {
+      outputFormat = formatCelsius
+    }
     let temp_us = UserPreferenceFormatterMock.temperature(tempInC: celsius)
-    XCTAssert("\(Int(fahrenheit))°F" == temp_us, "Should be equal \(fahrenheit) == \(temp_us)")
+    XCTAssert(outputFormat == temp_us, "Should be equal \(fahrenheit) == \(temp_us)")
     let temp_us_1 = UserPreferenceFormatterMock.temperature(tempInF: fahrenheit)
-    XCTAssert("\(Int(fahrenheit))°F" == temp_us_1, "Should be equal \(fahrenheit) == \(temp_us_1)")
+    XCTAssert(outputFormat == temp_us_1, "Should be equal \(fahrenheit) == \(temp_us_1)")
 
     let temp_us_2 = UserPreferenceFormatterMock.localizedTemp(inCelsius: nil, inFahrenheit: Int(fahrenheit))
-    XCTAssert("\(Int(fahrenheit))°F" == temp_us_2, "Should be equal \(fahrenheit) == \(temp_us_2)")
+    XCTAssert(outputFormat == temp_us_2, "Should be equal \(fahrenheit) == \(temp_us_2)")
 
     let temp_us_3 = UserPreferenceFormatterMock.localizedTemp(inCelsius: Int(celsius), inFahrenheit: nil)
-    XCTAssert("\(Int(fahrenheit))°F" == temp_us_3, "Should be equal \(fahrenheit) == \(temp_us_3)")
-
+    XCTAssert(outputFormat == temp_us_3, "Should be equal \(fahrenheit) == \(temp_us_3)")
 
     UserPreferenceFormatterMock.locale = Locale(identifier: "en_IN")
+    if UserPreferenceFormatterMock.locale?.temperatureUnit == .celsius {
+      outputFormat = formatCelsius
+    } else {
+      outputFormat = formatFahrenheit
+    }
+
     let temp_in = UserPreferenceFormatterMock.temperature(tempInC: celsius)
-    XCTAssert("\(Int(celsius))°C" == temp_in, "Should be equal \(celsius) == \(temp_in)")
+    XCTAssert(outputFormat == temp_in, "Should be equal \(celsius) == \(temp_in)")
 
     let temp_in_1 = UserPreferenceFormatterMock.temperature(tempInF: fahrenheit)
-    XCTAssert("\(Int(celsius))°C" == temp_in_1, "Should be equal \(celsius) == \(temp_in_1)")
+    XCTAssert(outputFormat == temp_in_1, "Should be equal \(celsius) == \(temp_in_1)")
 
     let temp_in_2 = UserPreferenceFormatterMock.localizedTemp(inCelsius: nil, inFahrenheit: Int(fahrenheit))
-    XCTAssert("\(Int(celsius))°C" == temp_in_2, "Should be equal \(celsius) == \(temp_in_2)")
+    XCTAssert(outputFormat == temp_in_2, "Should be equal \(celsius) == \(temp_in_2)")
 
     let temp_in_3 = UserPreferenceFormatterMock.localizedTemp(inCelsius: Int(celsius), inFahrenheit: nil)
-    XCTAssert("\(Int(celsius))°C" == temp_in_3, "Should be equal \(celsius) == \(temp_in_3)")
+    XCTAssert(outputFormat == temp_in_3, "Should be equal \(celsius) == \(temp_in_3)")
 
     let temp = UserPreferenceFormatterMock.localizedTemp(inCelsius:nil, inFahrenheit: nil)
     XCTAssert("Unknown" == temp, "Should be equal Unknown == \(temp)")

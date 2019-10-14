@@ -14,6 +14,9 @@ struct RecentCitiesControllerStrings {
    static let  messageForEmptySearch = "To search please type atleast 3 characters and press Search."
    static let  messageForEmptyRecents = "You don't have any recents visited cities. Please try searching cities."
    static let  messageForEmptySearchResults = "Unable to found any results for \"%@\". Please try searching something else."
+   static let  alertOKActionButtonTitle = "OK"
+   static let  alertSearchErrorTitle = "Unable to search"
+   static let  alertSearchErrorGenricMessage = "We’re having some unexpected trouble getting this info for you right now."
 }
 
 struct RecentCitiesControllerIdentifiers {
@@ -182,9 +185,28 @@ extension RecentCitiesController: UISearchControllerDelegate,UISearchBarDelegate
           self.tableView.reloadData()
         }
       case .failure(let error):
-        self.messageLabel.text = String(format:RecentCitiesControllerStrings.messageForEmptySearchResults,text)
+        DispatchQueue.main.async {
+          self.messageLabel.text = String(format:RecentCitiesControllerStrings.messageForEmptySearchResults,text)
+          var message = RecentCitiesControllerStrings.alertSearchErrorGenricMessage
+          if let httpError = error as? HTTPError, let errorDescription = httpError.errorDescription   {
+            message = errorDescription
+            self.messageLabel.text = message
+          }
+          if animate {
+            self.stopAnimatingActivityViewer()
+            self.showAlert(message: message, title: RecentCitiesControllerStrings.alertSearchErrorTitle)
+          }
+        }
       }
     }
+  }
+
+  func showAlert(message: String, title: String) {
+    let alertController = UIAlertController(title: title, message:message, preferredStyle: .alert)
+    let action = UIAlertAction(title: RecentCitiesControllerStrings.alertOKActionButtonTitle, style: .default) { _ in
+    }
+    alertController.addAction(action)
+    self.present(alertController, animated: true, completion: nil)
   }
 
   func startAnimatingActivityViewer() {

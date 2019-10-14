@@ -41,6 +41,12 @@ struct CityWeatherControllerStrings {
   static let temperatureHeader = "Temperature"
   static let windHeader = "Wind"
   static let visibilityHeader = "Visibility"
+
+
+  static let  alertCancelActionButtonTitle = "Cancel"
+  static let  alertTryAgainActionButtonTitle = "Try Again"
+  static let  alertGenricMessage = "We’re having some unexpected trouble getting this info for you right now."
+  static let  alertSearchErrorTitle = "Unable to get weather report for %@"
 }
 
 
@@ -85,11 +91,32 @@ class CityWeatherController: UITableViewController {
           self.weatherReport = weatherReport
           self.didDownloadWeatherReport()
         }
-         print("searchResult \(weatherReport)")
         case .failure(let error):
           print("downloadWeatherUpdate error \(error)");
+        DispatchQueue.main.async {
+          var message = CityWeatherControllerStrings.alertGenricMessage
+          if let httpError = error as? HTTPError, let errorDescription = httpError.errorDescription   {
+            message = errorDescription
+          }
+          self.showAlert(message: message, title: String(format: CityWeatherControllerStrings.alertSearchErrorTitle,self.city.name))
+        }
       }
     }
+  }
+
+  func showAlert(message: String, title: String) {
+    let alertController = UIAlertController(title: title, message:message, preferredStyle: .alert)
+    let action = UIAlertAction(title: CityWeatherControllerStrings.alertCancelActionButtonTitle, style: .default) { _ in
+      self.navigationController?.popViewController(animated: true)
+    }
+    let tryAgain = UIAlertAction(title: CityWeatherControllerStrings.alertTryAgainActionButtonTitle, style: .default) { _ in
+      self.downloadWeatherUpdate()
+    }
+
+    alertController.addAction(action)
+    alertController.addAction(tryAgain)
+
+    self.present(alertController, animated: true, completion: nil)
   }
 
   func didDownloadWeatherReport() {
